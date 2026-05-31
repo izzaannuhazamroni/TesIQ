@@ -1,6 +1,5 @@
 # =========================================
 # RAPIQ — Rapid IQ Classification System
-# Modern AI Dashboard Redesign
 # =========================================
 
 import streamlit as st
@@ -23,727 +22,759 @@ st.set_page_config(
 )
 
 # =========================================
-# CUSTOM CSS
+# CUSTOM CSS — Obsidian Noir Design System
+# Aesthetic: Dark luxury scientific instrument
+# Font: Outfit (display) + JetBrains Mono (data)
+# Palette: Near-black base, electric teal accent,
+#          warm amber highlight, slate borders
 # =========================================
 
 st.markdown("""
 <style>
-/* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
 
-/* ── Reset & Root ── */
+/* ─── Reset ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ─── Design Tokens ─── */
 :root {
-    --bg-base:       #020617;
-    --bg-sidebar:    #0A0F1E;
-    --bg-card:       #0D1526;
-    --bg-card-hover: #111d35;
-    --border:        #1E2D4A;
-    --border-glow:   #38BDF840;
-    --accent-blue:   #38BDF8;
-    --accent-purple: #8B5CF6;
-    --accent-cyan:   #06B6D4;
-    --success:       #22C55E;
-    --warning:       #F59E0B;
-    --danger:        #EF4444;
-    --text-primary:  #F0F6FF;
-    --text-secondary:#7C9CBF;
-    --text-muted:    #4A6080;
-    --gradient-main: linear-gradient(135deg, #38BDF8, #8B5CF6);
-    --gradient-card: linear-gradient(145deg, #0D1526, #0A1220);
-    --shadow-glow:   0 0 30px #38BDF815;
-    --shadow-card:   0 4px 24px #00000060;
-    --radius-lg:     16px;
-    --radius-xl:     24px;
-    --radius-pill:   999px;
+    /* Base surfaces — near-black with cool undertone */
+    --s0:  #060A0F;   /* deepest bg */
+    --s1:  #090E15;   /* sidebar */
+    --s2:  #0C1219;   /* card */
+    --s3:  #101820;   /* card hover / input */
+    --s4:  #141F2A;   /* elevated surface */
+
+    /* Borders */
+    --b1:  #1A2535;   /* subtle */
+    --b2:  #243448;   /* mid */
+    --b3:  #2E4260;   /* strong */
+
+    /* Accent — electric teal */
+    --teal:        #00D4C8;
+    --teal-dim:    rgba(0,212,200,0.12);
+    --teal-glow:   rgba(0,212,200,0.18);
+    --teal-border: rgba(0,212,200,0.28);
+
+    /* Secondary accent — amber / gold */
+    --amber:       #F5A623;
+    --amber-dim:   rgba(245,166,35,0.12);
+    --amber-border:rgba(245,166,35,0.28);
+
+    /* Status */
+    --green:  #00C896;
+    --red:    #FF4D6A;
+    --orange: #FF8C42;
+    --purple: #9B72F0;
+
+    /* Text */
+    --t1: #E8F0F8;   /* primary */
+    --t2: #5E7A96;   /* secondary */
+    --t3: #2E4A62;   /* muted */
+
+    /* Typography */
+    --f-display: 'Outfit', sans-serif;
+    --f-mono:    'JetBrains Mono', monospace;
+
+    /* Geometry */
+    --r-sm:   6px;
+    --r-md:   10px;
+    --r-lg:   14px;
+    --r-xl:   20px;
+    --r-pill: 999px;
+
+    /* Shadows */
+    --sh-card:  0 2px 16px rgba(0,0,0,0.5);
+    --sh-teal:  0 0 24px rgba(0,212,200,0.12);
+    --sh-btn:   0 4px 20px rgba(0,212,200,0.30);
 }
 
-/* ── App background ── */
+/* ─── App shell ─── */
 .stApp {
-    background: var(--bg-base) !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    color: var(--text-primary) !important;
+    background: var(--s0) !important;
+    font-family: var(--f-display) !important;
+    color: var(--t1) !important;
 }
 
-/* ── Hide default streamlit elements ── */
-#MainMenu, footer, header { visibility: hidden; }
-.stDeployButton { display: none !important; }
-[data-testid="stToolbar"] { display: none !important; }
+/* Hide streamlit chrome */
+#MainMenu, footer, header         { visibility: hidden; }
+.stDeployButton                   { display: none !important; }
+[data-testid="stToolbar"]         { display: none !important; }
 
-/* ── Sidebar ── */
-[data-testid="stSidebar"] {
-    background: #020817 !important;
-
-    border-right: 1px solid #0F172A !important;
-
-    width: 250px !important;
+/* Content area */
+.main .block-container {
+    padding: 2rem 2.5rem 4rem !important;
+    max-width: 1440px !important;
 }
 
-/* Inner sidebar container */
-[data-testid="stSidebar"] > div:first-child {
-    background: #020817 !important;
+/* Column gaps */
+[data-testid="column"]            { padding: 0 7px !important; }
+[data-testid="stHorizontalBlock"] { gap: 0 !important; }
 
-    padding: 0 !important;
+/* Divider */
+hr {
+    border: none !important;
+    border-top: 1px solid var(--b1) !important;
+    margin: 1.4rem 0 !important;
 }
 
-/* Sidebar content wrapper */
+/* Scrollbar */
+::-webkit-scrollbar               { width: 4px; height: 4px; }
+::-webkit-scrollbar-track         { background: var(--s0); }
+::-webkit-scrollbar-thumb         { background: var(--b2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover   { background: var(--b3); }
+
+/* Code */
+code {
+    font-family: var(--f-mono) !important;
+    font-size: 11px !important;
+    color: var(--teal) !important;
+    background: var(--teal-dim) !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+}
+
+/* ─── Sidebar ─── */
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] > div:first-child,
 section[data-testid="stSidebar"] {
-    background: #020817 !important;
+    background: var(--s1) !important;
+    border-right: 1px solid var(--b1) !important;
+    width: 248px !important;
 }
-
-/* ── Option menu overrides ── */
-.nav-link {
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-
-    color: var(--text-secondary) !important;
-
-    border-radius: 12px !important;
-
-    margin: 6px 10px !important;
-    padding: 14px 16px !important;
-
-    transition: all 0.2s ease !important;
-
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-
-    white-space: nowrap !important;
-    overflow: hidden !important;
-
-    min-height: 52px !important;
-}
-.nav-link:hover {
-    background: #1E2D4A30 !important;
-    color: var(--text-primary) !important;
-}
-.nav-link.active {
-    background: linear-gradient(
-        135deg,
-        rgba(56,189,248,0.16),
-        rgba(139,92,246,0.14)
-    ) !important;
-
-    border: 1px solid rgba(56,189,248,0.18) !important;
-
-    box-shadow:
-        0 0 12px rgba(56,189,248,0.06),
-        inset 0 1px 0 rgba(255,255,255,0.03) !important;
-}
-
-    color: var(--accent-blue) !important;
-
-    border: 1px solid #38BDF830 !important;
-
-    font-weight: 600 !important;
-
-    box-shadow: 0 4px 18px rgba(56, 189, 248, 0.08) !important;
-}
-.nav-link-selected {
-    background: linear-gradient(135deg, #38BDF820, #8B5CF620) !important;
-}
-/* ========================================
-   OPTION MENU FULL DARK FIX
-======================================== */
-
-/* Remove white menu container */
-[data-testid="stSidebar"] ul {
-    background: transparent !important;
-}
-
-/* Option menu wrapper */
-[data-testid="stSidebar"] nav {
-    background: transparent !important;
-}
-
-/* Remove white block */
+[data-testid="stSidebar"] ul,
+[data-testid="stSidebar"] nav,
+[data-testid="stSidebar"] section,
 [data-testid="stSidebar"] .css-1d391kg,
 [data-testid="stSidebar"] .css-163ttbj,
-[data-testid="stSidebar"] .css-1wrcr25 {
-    background: transparent !important;
+[data-testid="stSidebar"] .css-1wrcr25,
+ul[data-testid="stSidebarNavItems"],
+nav { background: transparent !important; }
+
+/* ─── Sidebar logo ─── */
+.sidebar-logo {
+    padding: 24px 18px 18px;
+    border-bottom: 1px solid var(--b1);
+    margin-bottom: 4px;
+}
+.logo-mark {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--teal) 0%, #007A9E 100%);
+    border-radius: var(--r-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 16px rgba(0,212,200,0.30);
+    position: relative;
+}
+.logo-mark::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: calc(var(--r-md) + 1px);
+    border: 1px solid rgba(0,212,200,0.40);
+    pointer-events: none;
+}
+.logo-name {
+    font-family: var(--f-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--t1);
+    letter-spacing: -0.03em;
+}
+.logo-sub {
+    font-size: 9px;
+    color: var(--t3);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 3px;
+    font-family: var(--f-mono);
 }
 
-/* Force menu area dark */
-[data-testid="stSidebar"] section {
-    background: transparent !important;
-}
-/* Remove default menu background */
-ul[data-testid="stSidebarNavItems"] {
-    background: transparent !important;
-}
-
-/* Option menu container */
-nav {
-    background: transparent !important;
-}
-.nav-link span {
+/* ─── Nav links ─── */
+.nav-link {
+    font-family: var(--f-display) !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: var(--t2) !important;
+    border-radius: var(--r-md) !important;
+    margin: 2px 10px !important;
+    padding: 12px 14px !important;
+    transition: all 0.18s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    white-space: nowrap !important;
     overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    min-height: 48px !important;
+    border: 1px solid transparent !important;
+}
+.nav-link:hover {
+    background: var(--s3) !important;
+    color: var(--t1) !important;
+    border-color: var(--b1) !important;
+}
+.nav-link.active,
+.nav-link-selected {
+    background: var(--teal-dim) !important;
+    border: 1px solid var(--teal-border) !important;
+    color: var(--teal) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 0 12px rgba(0,212,200,0.07) !important;
+}
+.nav-link span { overflow: hidden !important; text-overflow: ellipsis !important; }
+.nav-link i    { font-size: 14px !important; min-width: 16px !important; }
+
+/* sidebar footer */
+.sidebar-footer {
+    padding: 14px 18px 20px;
+}
+.sidebar-footer-label {
+    font-size: 9px;
+    color: var(--t3);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-family: var(--f-mono);
+}
+.sidebar-footer-items {
+    font-size: 11.5px;
+    color: var(--t2);
+    line-height: 2;
+    font-family: var(--f-mono);
 }
 
-.nav-link i {
-    font-size: 16px !important;
-    min-width: 18px !important;
-}
-/* ── Main content padding ── */
-.main .block-container {
-    padding: 2rem 2.5rem 3rem !important;
-    max-width: 1400px !important;
-}
-
-/* ── Cards ── */
-.rapiq-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    box-shadow: var(--shadow-card);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.rapiq-card:hover {
-    border-color: var(--border-glow);
-    box-shadow: var(--shadow-glow);
-}
-
-/* ── Hero Banner ── */
+/* ──────────────────────────────────────────
+   HERO BANNER
+────────────────────────────────────────── */
 .hero-banner {
-    background: linear-gradient(135deg, #0D1F3C 0%, #0D1526 50%, #1A0D2E 100%);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    padding: 2.5rem 3rem;
-    margin-bottom: 1.8rem;
+    background: var(--s2);
+    border: 1px solid var(--b1);
+    border-top: 2px solid var(--teal);
+    border-radius: var(--r-xl);
+    padding: 2.4rem 3rem;
+    margin-bottom: 1.6rem;
     position: relative;
     overflow: hidden;
 }
+/* Grid texture overlay */
 .hero-banner::before {
     content: '';
     position: absolute;
-    top: -60px; right: -60px;
-    width: 280px; height: 280px;
-    background: radial-gradient(circle, #38BDF812 0%, transparent 70%);
-    border-radius: 50%;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--b1) 1px, transparent 1px),
+        linear-gradient(90deg, var(--b1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.25;
+    pointer-events: none;
 }
+/* Teal orb */
 .hero-banner::after {
     content: '';
     position: absolute;
-    bottom: -80px; left: 30%;
-    width: 320px; height: 200px;
-    background: radial-gradient(circle, #8B5CF60A 0%, transparent 70%);
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(0,212,200,0.07) 0%, transparent 65%);
     border-radius: 50%;
-}
-.hero-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 3rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #F0F6FF, #38BDF8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-}
-.hero-subtitle {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    font-weight: 400;
-    margin-bottom: 1.2rem;
+    pointer-events: none;
 }
 .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: #38BDF815;
-    border: 1px solid #38BDF830;
-    border-radius: var(--radius-pill);
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
+    border-radius: var(--r-pill);
     padding: 4px 12px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent-blue);
-    letter-spacing: 0.08em;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    font-family: var(--f-mono);
+    position: relative;
+}
+.hero-title {
+    font-family: var(--f-display);
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: var(--t1);
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.04em;
+    position: relative;
+}
+/* teal underline glow on title */
+.hero-title span {
+    color: var(--teal);
+}
+.hero-subtitle {
+    font-size: 13px;
+    color: var(--t2);
+    font-weight: 400;
+    margin-bottom: 1.3rem;
+    line-height: 1.7;
+    max-width: 640px;
+    position: relative;
 }
 
-/* ── Section headers ── */
+/* ── Tags ── */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: var(--r-sm);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-family: var(--f-mono);
+}
+.tag-blue   { background: var(--teal-dim);   border: 1px solid var(--teal-border);   color: var(--teal); }
+.tag-purple { background: rgba(155,114,240,0.10); border: 1px solid rgba(155,114,240,0.25); color: var(--purple); }
+.tag-green  { background: rgba(0,200,150,0.10);   border: 1px solid rgba(0,200,150,0.25);   color: var(--green); }
+
+/* ──────────────────────────────────────────
+   CARDS
+────────────────────────────────────────── */
+.rapiq-card {
+    background: var(--s2);
+    border: 1px solid var(--b1);
+    border-radius: var(--r-lg);
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 0.9rem;
+    box-shadow: var(--sh-card);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.rapiq-card:hover {
+    border-color: var(--b2);
+    box-shadow: var(--sh-teal);
+}
+
+/* ── Section header ── */
 .section-header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.15rem;
 }
 .section-icon {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, #38BDF820, #8B5CF620);
-    border: 1px solid #38BDF830;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
+    width: 30px;
+    height: 30px;
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
+    border-radius: var(--r-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
 }
 .section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: 0.01em;
+    font-family: var(--f-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--t1);
+    letter-spacing: -0.01em;
 }
 
-/* ── Input labels ── */
+/* ── Input label ── */
 .input-label {
-    font-size: 10.5px;
+    font-size: 9.5px;
     font-weight: 600;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
+    color: var(--t3);
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     margin-bottom: 6px;
+    font-family: var(--f-mono);
 }
 
-/* ── Selectbox ── */
+/* ──────────────────────────────────────────
+   METRIC CARDS
+────────────────────────────────────────── */
+.metric-card {
+    background: var(--s2);
+    border: 1px solid var(--b1);
+    border-radius: var(--r-lg);
+    padding: 1.3rem 1.4rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+/* Left accent bar instead of top */
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 2px;
+    background: var(--teal);
+    border-radius: var(--r-lg) 0 0 var(--r-lg);
+}
+.metric-card:hover {
+    border-color: var(--teal-border);
+    box-shadow: var(--sh-teal);
+}
+.metric-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--t3);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--f-mono);
+}
+.metric-value {
+    font-family: var(--f-display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--t1);
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: -0.04em;
+}
+.metric-sub {
+    font-size: 10.5px;
+    color: var(--t3);
+    margin-top: 5px;
+    font-family: var(--f-mono);
+}
+
+/* ──────────────────────────────────────────
+   PREDICTION RESULT
+────────────────────────────────────────── */
+.prediction-result-card {
+    background: var(--s2);
+    border: 1px solid var(--teal-border);
+    border-left: 3px solid var(--teal);
+    border-radius: var(--r-xl);
+    padding: 2rem 2.4rem;
+    margin: 1.2rem 0;
+    box-shadow: var(--sh-teal), var(--sh-card);
+    position: relative;
+    overflow: hidden;
+}
+/* Subtle teal orb */
+.prediction-result-card::after {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+/* Scanning line animation */
+.prediction-result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        var(--teal) 40%,
+        var(--teal) 60%,
+        transparent 100%);
+    animation: scan-line 3.5s ease-in-out infinite;
+    opacity: 0.6;
+}
+@keyframes scan-line {
+    0%   { transform: translateY(0);    opacity: 0.6; }
+    50%  { transform: translateY(200px); opacity: 0.2; }
+    100% { transform: translateY(0);    opacity: 0.6; }
+}
+.prediction-tag {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: var(--f-mono);
+}
+.prediction-category {
+    font-family: var(--f-display);
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--t1);
+    line-height: 1.05;
+    margin-bottom: 6px;
+    letter-spacing: -0.03em;
+}
+.prediction-desc {
+    font-size: 12.5px;
+    color: var(--t2);
+    margin-bottom: 1.4rem;
+    line-height: 1.65;
+}
+
+/* ──────────────────────────────────────────
+   CLASS CARDS (taxonomy)
+────────────────────────────────────────── */
+.class-card {
+    background: var(--s2);
+    border: 1px solid var(--b1);
+    border-radius: var(--r-md);
+    padding: 1.1rem 1.3rem;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    cursor: default;
+}
+.class-card:hover {
+    border-color: var(--teal-border);
+    box-shadow: var(--sh-teal);
+    transform: translateY(-2px);
+}
+.class-number {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--t3);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-family: var(--f-mono);
+}
+.class-name {
+    font-family: var(--f-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--t1);
+}
+
+/* ──────────────────────────────────────────
+   FORM CONTROLS
+────────────────────────────────────────── */
+
+/* Selectbox */
 [data-baseweb="select"] > div {
-    background: #070E1E !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 10px !important;
-    color: var(--text-primary) !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    background: var(--s3) !important;
+    border: 1px solid var(--b2) !important;
+    border-radius: var(--r-md) !important;
+    color: var(--t1) !important;
+    font-family: var(--f-display) !important;
     font-size: 13.5px !important;
-    transition: border-color 0.2s !important;
+    transition: border-color 0.18s, box-shadow 0.18s !important;
 }
 [data-baseweb="select"] > div:hover,
 [data-baseweb="select"] > div:focus-within {
-    border-color: #38BDF850 !important;
-    box-shadow: 0 0 0 3px #38BDF810 !important;
+    border-color: var(--teal-border) !important;
+    box-shadow: 0 0 0 3px rgba(0,212,200,0.07) !important;
 }
 [data-baseweb="popover"] {
-    background: #0D1526 !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 10px !important;
+    background: var(--s3) !important;
+    border: 1px solid var(--b2) !important;
+    border-radius: var(--r-md) !important;
+    box-shadow: var(--sh-card) !important;
 }
 [role="option"] {
-    background: #0D1526 !important;
-    color: var(--text-secondary) !important;
+    background: var(--s3) !important;
+    color: var(--t2) !important;
     font-size: 13.5px !important;
+    font-family: var(--f-display) !important;
 }
 [role="option"]:hover {
-    background: #1E2D4A !important;
-    color: var(--text-primary) !important;
+    background: var(--s4) !important;
+    color: var(--t1) !important;
 }
 
-/* ── Number input ── */
+/* Number input */
 [data-testid="stNumberInput"] input {
-    background: #070E1E !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 10px !important;
-    color: var(--text-primary) !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    background: var(--s3) !important;
+    border: 1px solid var(--b2) !important;
+    border-radius: var(--r-md) !important;
+    color: var(--t1) !important;
+    font-family: var(--f-display) !important;
     font-size: 14px !important;
     padding: 10px 14px !important;
+    transition: border-color 0.18s, box-shadow 0.18s !important;
 }
 [data-testid="stNumberInput"] input:focus {
-    border-color: #38BDF850 !important;
-    box-shadow: 0 0 0 3px #38BDF810 !important;
+    border-color: var(--teal-border) !important;
+    box-shadow: 0 0 0 3px rgba(0,212,200,0.07) !important;
     outline: none !important;
 }
-
-/* ── Number input stepper buttons ── */
 [data-testid="stNumberInput"] button {
-    background: #0D1526 !important;
-    border-color: var(--border) !important;
-    color: var(--text-secondary) !important;
+    background: var(--s4) !important;
+    border-color: var(--b2) !important;
+    color: var(--t2) !important;
+    transition: color 0.18s !important;
+}
+[data-testid="stNumberInput"] button:hover {
+    color: var(--teal) !important;
 }
 
-/* ── Radio (gender) ── */
+/* Radio */
 [data-testid="stRadio"] > div {
     display: flex !important;
     flex-direction: row !important;
     gap: 10px !important;
 }
-[data-testid="stRadio"] > div {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 14px !important;
-}
-
-/* Radio card */
 [data-testid="stRadio"] label {
-    background: #070E1E !important;
-
-    border: 1px solid var(--border) !important;
-
-    border-radius: 14px !important;
-
-    padding: 12px 18px !important;
-
-    color: var(--text-secondary) !important;
-
-    font-size: 14px !important;
+    background: var(--s3) !important;
+    border: 1px solid var(--b2) !important;
+    border-radius: var(--r-md) !important;
+    padding: 10px 20px !important;
+    color: var(--t2) !important;
+    font-size: 13.5px !important;
     font-weight: 500 !important;
-
     cursor: pointer !important;
-
-    transition: all 0.2s ease !important;
-
-    min-width: 150px !important;
-
+    transition: all 0.18s ease !important;
+    min-width: 120px !important;
     white-space: nowrap !important;
-}
-
-/* Hover */
-[data-testid="stRadio"] label:hover {
-    border-color: #38BDF850 !important;
-    color: var(--text-primary) !important;
-    background: #0A1220 !important;
-}
-
-/* Checked */
-[data-testid="stRadio"] label[data-checked="true"] {
-    border-color: #38BDF860 !important;
-
-    background: linear-gradient(
-        135deg,
-        #38BDF815,
-        #8B5CF610
-    ) !important;
-
-    color: #38BDF8 !important;
-
-    box-shadow: 0 0 18px rgba(56,189,248,0.08) !important;
+    font-family: var(--f-display) !important;
 }
 [data-testid="stRadio"] label:hover {
-    border-color: #38BDF850 !important;
-    color: var(--text-primary) !important;
+    border-color: var(--teal-border) !important;
+    color: var(--t1) !important;
+    background: var(--s4) !important;
 }
 [data-testid="stRadio"] label[data-checked="true"] {
-    border-color: var(--accent-blue) !important;
-    background: #38BDF815 !important;
-    color: var(--accent-blue) !important;
-}
-
-/* ── Predict Button ── */
-.stButton > button {
-    background: linear-gradient(135deg, #38BDF8, #6366F1, #8B5CF6) !important;
-    color: white !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    border-color: var(--teal-border) !important;
+    background: var(--teal-dim) !important;
+    color: var(--teal) !important;
     font-weight: 700 !important;
-    font-size: 14.5px !important;
-    letter-spacing: 0.04em !important;
+    box-shadow: 0 0 14px rgba(0,212,200,0.08) !important;
+}
+
+/* ── Primary Button ── */
+.stButton > button {
+    background: var(--teal) !important;
+    color: #060A0F !important;
+    font-family: var(--f-display) !important;
+    font-weight: 800 !important;
+    font-size: 14px !important;
+    letter-spacing: 0.01em !important;
     border: none !important;
-    border-radius: var(--radius-pill) !important;
+    border-radius: var(--r-pill) !important;
     padding: 0.75rem 2rem !important;
     width: 100% !important;
-    height: 54px !important;
+    height: 52px !important;
     cursor: pointer !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 20px #38BDF840 !important;
-    background-size: 200% auto !important;
+    transition: opacity 0.2s, transform 0.18s, box-shadow 0.2s !important;
+    box-shadow: var(--sh-btn) !important;
 }
 .stButton > button:hover {
-    background-position: right center !important;
-    box-shadow: 0 6px 28px #8B5CF650 !important;
+    opacity: 0.88 !important;
     transform: translateY(-1px) !important;
+    box-shadow: 0 6px 26px rgba(0,212,200,0.38) !important;
 }
 .stButton > button:active {
     transform: translateY(0) !important;
+    opacity: 1 !important;
 }
 
-/* ── Download button variant ── */
+/* Download button */
 [data-testid="stDownloadButton"] > button {
     background: transparent !important;
-    border: 1px solid var(--border) !important;
-    color: var(--text-secondary) !important;
-    border-radius: 10px !important;
-    font-size: 13px !important;
+    border: 1px solid var(--b2) !important;
+    color: var(--t2) !important;
+    border-radius: var(--r-md) !important;
+    font-size: 12.5px !important;
+    font-family: var(--f-display) !important;
+    font-weight: 600 !important;
     box-shadow: none !important;
     height: auto !important;
     padding: 8px 16px !important;
+    transition: all 0.18s !important;
+    width: auto !important;
 }
 [data-testid="stDownloadButton"] > button:hover {
-    border-color: #38BDF850 !important;
-    color: var(--accent-blue) !important;
+    border-color: var(--teal-border) !important;
+    color: var(--teal) !important;
+    background: var(--teal-dim) !important;
     transform: none !important;
     box-shadow: none !important;
 }
 
-/* ── Metric cards ── */
-.metric-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.4rem 1.5rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-.metric-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--gradient-main);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-.metric-card:hover {
-    border-color: #38BDF830;
-    box-shadow: var(--shadow-glow);
-}
-.metric-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--text-muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.metric-value {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1;
-    margin-bottom: 4px;
-}
-.metric-sub {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 6px;
-}
-
-/* ── Prediction result card ── */
-.prediction-result-card {
-    background: linear-gradient(145deg, #0D1F3C, #0D1526);
-    border: 1px solid #38BDF840;
-    border-radius: var(--radius-xl);
-    padding: 2rem 2.5rem;
-    margin: 1.5rem 0;
-    box-shadow: 0 0 40px #38BDF810, var(--shadow-card);
-    position: relative;
-    overflow: hidden;
-}
-.prediction-result-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #38BDF8, #8B5CF6, #38BDF8);
-    background-size: 200% auto;
-    animation: shimmer 3s linear infinite;
-}
-@keyframes shimmer {
-    0% { background-position: 0% center; }
-    100% { background-position: 200% center; }
-}
-.prediction-tag {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--accent-blue);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-.prediction-category {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.6rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1.1;
-    margin-bottom: 6px;
-}
-.prediction-desc {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-}
-
-/* ── Progress bar override ── */
-[data-testid="stProgress"] > div {
-    background: var(--border) !important;
-    border-radius: var(--radius-pill) !important;
-    height: 6px !important;
-}
-[data-testid="stProgress"] > div > div {
-    background: linear-gradient(90deg, #38BDF8, #8B5CF6) !important;
-    border-radius: var(--radius-pill) !important;
-}
-
-/* ── Dataframe ── */
-[data-testid="stDataFrame"] {
-    background: var(--bg-card) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 12px !important;
-    overflow: hidden !important;
-}
-.stDataFrame th {
-    background: #0A0F1E !important;
-    color: var(--text-muted) !important;
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.08em !important;
-    text-transform: uppercase !important;
-    padding: 10px 14px !important;
-    border-bottom: 1px solid var(--border) !important;
-}
-.stDataFrame td {
-    color: var(--text-secondary) !important;
-    font-size: 13px !important;
-    padding: 10px 14px !important;
-    border-bottom: 1px solid #1E2D4A50 !important;
-}
-
-/* ── File uploader ── */
-/* ── File uploader ── */
-
+/* File uploader */
 [data-testid="stFileUploader"] {
-    background: #070E1E !important;
-    border: 1px dashed var(--border) !important;
-    border-radius: var(--radius-lg) !important;
-    padding: 12px !important;
-    transition: all 0.2s ease !important;
+    background: var(--s3) !important;
+    border: 1px dashed var(--b2) !important;
+    border-radius: var(--r-lg) !important;
+    padding: 10px !important;
+    transition: all 0.18s !important;
 }
-
 [data-testid="stFileUploader"]:hover {
-    border-color: #38BDF850 !important;
-    background: #0A1220 !important;
+    border-color: var(--teal-border) !important;
 }
-
-/* Remove white default block */
 section[data-testid="stFileUploaderDropzone"] {
     background: transparent !important;
     border: none !important;
 }
-
-/* Upload text */
 [data-testid="stFileUploader"] label,
 [data-testid="stFileUploader"] small,
 [data-testid="stFileUploader"] span {
-    color: var(--text-secondary) !important;
+    color: var(--t2) !important;
     font-size: 13px !important;
+    font-family: var(--f-display) !important;
 }
-
-/* Upload button */
 [data-testid="stFileUploader"] button {
-    background: linear-gradient(135deg, #38BDF815, #8B5CF615) !important;
-
-    border: 1px solid #38BDF830 !important;
-
-    color: #38BDF8 !important;
-
-    border-radius: 10px !important;
-
+    background: var(--teal-dim) !important;
+    border: 1px solid var(--teal-border) !important;
+    color: var(--teal) !important;
+    border-radius: var(--r-md) !important;
     font-size: 13px !important;
-    font-weight: 600 !important;
-
+    font-weight: 700 !important;
     padding: 8px 18px !important;
-
-    transition: all 0.2s ease !important;
+    font-family: var(--f-display) !important;
+    transition: all 0.18s !important;
 }
-
-/* Upload button hover */
 [data-testid="stFileUploader"] button:hover {
-    border-color: #38BDF860 !important;
-
-    background: linear-gradient(135deg, #38BDF825, #8B5CF625) !important;
-
-    color: #67D3FF !important;
-
+    background: rgba(0,212,200,0.18) !important;
     transform: translateY(-1px) !important;
 }
 
-/* ── Tags / badges ── */
-.tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 3px 10px;
-    border-radius: var(--radius-pill);
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-.tag-blue   { background: #38BDF815; border: 1px solid #38BDF830; color: var(--accent-blue); }
-.tag-purple { background: #8B5CF615; border: 1px solid #8B5CF630; color: var(--accent-purple); }
-.tag-green  { background: #22C55E15; border: 1px solid #22C55E30; color: var(--success); }
+/* ──────────────────────────────────────────
+   DATA DISPLAY
+────────────────────────────────────────── */
 
-/* ── Taxonomy class cards ── */
-.class-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.2rem 1.4rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
+/* Progress */
+[data-testid="stProgress"] > div {
+    background: var(--b2) !important;
+    border-radius: var(--r-pill) !important;
+    height: 4px !important;
 }
-.class-card:hover {
-    border-color: #38BDF830;
-    box-shadow: var(--shadow-glow);
-}
-.class-number {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-}
-.class-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--text-primary);
+[data-testid="stProgress"] > div > div {
+    background: linear-gradient(90deg, var(--teal), var(--purple)) !important;
+    border-radius: var(--r-pill) !important;
 }
 
-/* ── Sidebar logo area ── */
-.sidebar-logo {
-    padding: 24px 20px 16px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 8px;
+/* Dataframe */
+[data-testid="stDataFrame"] {
+    background: var(--s2) !important;
+    border: 1px solid var(--b1) !important;
+    border-radius: var(--r-md) !important;
+    overflow: hidden !important;
 }
-.logo-mark {
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, #38BDF8, #8B5CF6);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    margin-bottom: 10px;
+.stDataFrame th {
+    background: var(--s1) !important;
+    color: var(--t3) !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    padding: 10px 14px !important;
+    border-bottom: 1px solid var(--b1) !important;
+    font-family: var(--f-mono) !important;
 }
-.logo-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-.logo-sub {
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-top: 2px;
+.stDataFrame td {
+    color: var(--t2) !important;
+    font-size: 13px !important;
+    padding: 9px 14px !important;
+    border-bottom: 1px solid rgba(26,37,53,0.5) !important;
+    font-family: var(--f-mono) !important;
 }
 
-/* ── Divider ── */
-hr {
-    border: none !important;
-    border-top: 1px solid var(--border) !important;
-    margin: 1.5rem 0 !important;
-}
+/* Spinner */
+[data-testid="stSpinner"] { color: var(--teal) !important; }
 
-/* ── Streamlit col gap fix ── */
-[data-testid="column"] { padding: 0 8px !important; }
-[data-testid="stHorizontalBlock"] { gap: 0 !important; }
-
-/* ── Alert / info override ── */
+/* Hide alert */
 .stAlert { display: none !important; }
-
-/* ── Spinner ── */
-[data-testid="stSpinner"] { color: var(--accent-blue) !important; }
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-base); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 </style>
 """, unsafe_allow_html=True)
@@ -795,11 +826,11 @@ iq_labels = {
 }
 
 iq_colors = {
-    "Moderate ID":   "#EF4444",
-    "Mild ID":       "#F97316",
-    "Below Average": "#F59E0B",
-    "Average":       "#38BDF8",
-    "Above Average": "#8B5CF6"
+    "Moderate ID":   "#FF4D6A",
+    "Mild ID":       "#FF8C42",
+    "Below Average": "#F5A623",
+    "Average":       "#00D4C8",
+    "Above Average": "#9B72F0"
 }
 
 iq_descriptions = {
@@ -821,7 +852,7 @@ with st.sidebar:
     <div class="sidebar-logo">
         <div class="logo-mark">🧠</div>
         <div class="logo-name">RapIQ</div>
-        <div class="logo-sub">MLP Architecture: (64,64)</div>
+        <div class="logo-sub">MLP Architecture · (64,64)</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -836,78 +867,77 @@ with st.sidebar:
                 "background-color": "transparent",
             },
             "icon": {
-                "color": "#4A6080",
+                "color": "#2E4A62",
                 "font-size": "14px",
             },
             "nav-link": {
-                "font-family": "'Plus Jakarta Sans', sans-serif",
+                "font-family": "'Outfit', sans-serif",
                 "font-size": "13.5px",
-                "color": "#7C9CBF",
+                "color": "#5E7A96",
                 "border-radius": "10px",
-                "margin": "2px 12px",
-                "padding": "10px 14px",
-                "--hover-color": "#1E2D4A30",
+                "margin": "2px 10px",
+                "padding": "11px 14px",
+                "--hover-color": "#101820",
             },
             "nav-link-selected": {
-                "background": "linear-gradient(135deg, #38BDF820, #8B5CF620)",
-                "color": "#38BDF8",
-                "border": "1px solid #38BDF830",
-                "font-weight": "600",
+                "background": "rgba(0,212,200,0.10)",
+                "color": "#00D4C8",
+                "border": "1px solid rgba(0,212,200,0.25)",
+                "font-weight": "700",
             },
         }
     )
 
-    st.markdown("<div style='height:1px; background:var(--border); margin:16px 20px'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:1px; background:var(--b1); margin:14px 18px'></div>", unsafe_allow_html=True)
     st.markdown("""
-    <div style='padding:16px 20px 20px; margin-top:auto'>
-        <div style='font-size:10px; color:#4A6080; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:10px'>System</div>
-        <div style='font-size:12px; color:#7C9CBF; line-height:1.7'>
-            <div>🟢 &nbsp;Model Loaded</div>
-            <div>📊 &nbsp;MLP Classifier</div>
-            <div>⚡ &nbsp;StandardScaler</div>
+    <div class="sidebar-footer">
+        <div class="sidebar-footer-label">System Status</div>
+        <div class="sidebar-footer-items">
+            <div>● &nbsp;Model Active</div>
+            <div>● &nbsp;MLP Classifier</div>
+            <div>● &nbsp;StandardScaler</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 # =========================================
-# HELPER: PLOTLY THEME
+# PLOTLY THEME
 # =========================================
 
 PLOT_LAYOUT = dict(
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
-    font=dict(family="Plus Jakarta Sans", color="#7C9CBF"),
-    margin=dict(l=20, r=20, t=30, b=20),
+    font=dict(family="Outfit", color="#5E7A96"),
+    margin=dict(l=20, r=20, t=36, b=20),
     xaxis=dict(
-        gridcolor="#1E2D4A",
-        zerolinecolor="#1E2D4A",
-        tickfont=dict(size=11, color="#4A6080"),
+        gridcolor="#1A2535",
+        zerolinecolor="#1A2535",
+        tickfont=dict(size=11, color="#2E4A62"),
     ),
     yaxis=dict(
-        gridcolor="#1E2D4A",
-        zerolinecolor="#1E2D4A",
-        tickfont=dict(size=11, color="#4A6080"),
+        gridcolor="#1A2535",
+        zerolinecolor="#1A2535",
+        tickfont=dict(size=11, color="#2E4A62"),
     ),
     hoverlabel=dict(
-        bgcolor="#0D1526",
-        bordercolor="#1E2D4A",
-        font=dict(family="Plus Jakarta Sans", size=12, color="#F0F6FF"),
+        bgcolor="#0C1219",
+        bordercolor="#243448",
+        font=dict(family="Outfit", size=12, color="#E8F0F8"),
     ),
 )
 
 # =========================================
-# PAGE: DASHBOARD (SINGLE PREDICTION)
+# PAGE: DASHBOARD
 # =========================================
 
 if selected == "Dashboard":
 
-    # Hero
     st.markdown("""
     <div class="hero-banner">
-        <div class="hero-badge">⚡ Intelligence Classification Platform</div>
-        <div class="hero-title" style="margin-top:14px">RapIQ</div>
+        <div class="hero-badge">⬡ Intelligence Classification Platform</div>
+        <div class="hero-title" style="margin-top:14px">Rap<span>IQ</span></div>
         <div class="hero-subtitle">AI-powered pediatric IQ category prediction using a Multilayer Perceptron (MLP) architecture trained on the Stanford-Binet Intelligence Scales dataset.</div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px">
+        <div style="display:flex; gap:8px; flex-wrap:wrap; position:relative;">
             <span class="tag tag-blue">MLP (64,64)</span>
             <span class="tag tag-purple">5 Classes</span>
             <span class="tag tag-green">53.66% Accuracy</span>
@@ -915,7 +945,6 @@ if selected == "Dashboard":
     </div>
     """, unsafe_allow_html=True)
 
-    # Input cards
     col_left, col_right = st.columns(2, gap="medium")
 
     with col_left:
@@ -952,13 +981,11 @@ if selected == "Dashboard":
 
         st.markdown("</div>", unsafe_allow_html=True)
 
-    # Predict button
     st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
     col_btn = st.columns([1, 2, 1])[1]
     with col_btn:
-        predict_btn = st.button("🚀  Predict IQ Category", key="predict_btn")
+        predict_btn = st.button("⬡  Run Classification", key="predict_btn")
 
-    # Prediction logic
     if predict_btn:
         try:
             input_data = pd.DataFrame({
@@ -973,22 +1000,21 @@ if selected == "Dashboard":
             probabilities = model.predict_proba(scaled_data)[0]
             confidence = float(np.max(probabilities) * 100)
             predicted_label = iq_labels[prediction]
-            pred_color = iq_colors.get(predicted_label, "#38BDF8")
+            pred_color = iq_colors.get(predicted_label, "#00D4C8")
             pred_desc = iq_descriptions.get(predicted_label, "")
 
-            # Result + chart side by side
             r_col, c_col = st.columns([1.1, 1], gap="medium")
 
             with r_col:
                 st.markdown(f"""
                 <div class="prediction-result-card">
-                    <div class="prediction-tag">Final Prediction</div>
+                    <div class="prediction-tag">▸ Classification Output</div>
                     <div class="prediction-category" style="color:{pred_color}">{predicted_label}</div>
                     <div class="prediction-desc">{pred_desc}</div>
                     <div style="margin-bottom:8px">
                         <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-                            <span style="font-size:11px;color:#4A6080;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">Confidence Score</span>
-                            <span style="font-size:13px;color:{pred_color};font-weight:700">{confidence:.1f}%</span>
+                            <span style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;font-family:var(--f-mono)">Confidence Score</span>
+                            <span style="font-size:13px;color:{pred_color};font-weight:800;font-family:var(--f-mono)">{confidence:.1f}%</span>
                         </div>
                     </div>
                 </div>
@@ -1008,15 +1034,14 @@ if selected == "Dashboard":
                     y=prob_df["Probability"],
                     marker=dict(
                         color=prob_df["Color"],
-                        opacity=0.85,
+                        opacity=0.80,
                         line=dict(color="rgba(0,0,0,0)", width=0)
                     ),
                     text=[f"{v:.1f}%" for v in prob_df["Probability"]],
                     textposition="outside",
-                    textfont=dict(size=10, color="#7C9CBF"),
+                    textfont=dict(size=10, color="#5E7A96"),
                     hovertemplate="<b>%{x}</b><br>%{y:.1f}%<extra></extra>",
                 ))
-
                 fig.update_layout(
                     paper_bgcolor=PLOT_LAYOUT["paper_bgcolor"],
                     plot_bgcolor=PLOT_LAYOUT["plot_bgcolor"],
@@ -1024,27 +1049,27 @@ if selected == "Dashboard":
                     margin=PLOT_LAYOUT["margin"],
                     xaxis=PLOT_LAYOUT["xaxis"],
                     yaxis=dict(
-                        gridcolor="#1E2D4A",
-                        zerolinecolor="#1E2D4A",
-                        tickfont=dict(size=11, color="#4A6080"),
+                        gridcolor="#1A2535",
+                        zerolinecolor="#1A2535",
+                        tickfont=dict(size=11, color="#2E4A62"),
                         range=[0, 110]
                     ),
                     hoverlabel=PLOT_LAYOUT["hoverlabel"],
                     title=dict(
-                        text="Confidence Probability",
-                        font=dict(size=13, color="#7C9CBF"),
+                        text="Confidence Distribution",
+                        font=dict(size=12, color="#5E7A96"),
                         x=0
                     ),
                     height=300,
-                    bargap=0.35,
+                    bargap=0.38,
                     showlegend=False,
                 )
                 st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
         except Exception as e:
             st.markdown(f"""
-            <div class="rapiq-card" style="border-color:#EF444430">
-                <div style="color:#EF4444;font-size:13px">⚠️ Prediction Error: {e}</div>
+            <div class="rapiq-card" style="border-color:rgba(255,77,106,0.30)">
+                <div style="color:var(--red);font-size:13px;font-family:var(--f-mono)">⚠ Error: {e}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -1054,16 +1079,14 @@ if selected == "Dashboard":
 
 elif selected == "Bulk Prediction":
 
-    # Hero
     st.markdown("""
     <div class="hero-banner">
-        <div class="hero-badge">🗂️ Enterprise Processing</div>
-        <div class="hero-title" style="margin-top:14px;font-size:2.2rem">Orchestrate Large Datasets</div>
+        <div class="hero-badge">⬡ Enterprise Processing</div>
+        <div class="hero-title" style="margin-top:14px;font-size:2.4rem">Bulk Analysis</div>
         <div class="hero-subtitle">Upload your CSV file to run parallelized MLP inference across thousands of samples. Our engine automatically sanitizes features and produces confidence-weighted IQ categories.</div>
     </div>
     """, unsafe_allow_html=True)
 
-    # Template download + upload
     up_col, prev_col = st.columns([1, 1.4], gap="medium")
 
     with up_col:
@@ -1073,16 +1096,15 @@ elif selected == "Bulk Prediction":
                 <div class="section-icon">📤</div>
                 <div class="section-title">Upload Dataset</div>
             </div>
-            <div style="font-size:12px;color:#4A6080;margin-bottom:14px;line-height:1.7">
+            <div style="font-size:11.5px;color:var(--t3);margin-bottom:14px;line-height:1.8;font-family:var(--f-mono)">
                 Required columns:<br>
-                <code style="color:#38BDF8;font-size:11px">education_mother</code> &nbsp;
-                <code style="color:#38BDF8;font-size:11px">education_father</code><br>
-                <code style="color:#38BDF8;font-size:11px">age_years</code> &nbsp;
-                <code style="color:#38BDF8;font-size:11px">gender</code>
+                <code>education_mother</code> &nbsp;
+                <code>education_father</code><br>
+                <code>age_years</code> &nbsp;
+                <code>gender</code>
             </div>
         """, unsafe_allow_html=True)
 
-        # Template download
         template_df = pd.DataFrame({
             "education_mother": ["secondary", "higher", "vocational"],
             "education_father": ["vocational", "higher", "secondary"],
@@ -1110,25 +1132,24 @@ elif selected == "Bulk Prediction":
                 """, unsafe_allow_html=True)
                 st.dataframe(df.head(5), use_container_width=True, hide_index=True)
                 st.markdown(f"""
-                    <div style="display:flex;gap:12px;margin-top:10px">
+                    <div style="display:flex;gap:8px;margin-top:10px">
                         <span class="tag tag-blue">{len(df)} Rows</span>
                         <span class="tag tag-purple">{len(df.columns)} Columns</span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
             except Exception as e:
-                st.markdown(f'<div class="rapiq-card" style="border-color:#EF444430"><div style="color:#EF4444;font-size:13px">Read Error: {e}</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="rapiq-card" style="border-color:rgba(255,77,106,0.30)"><div style="color:var(--red);font-size:13px;font-family:var(--f-mono)">Read Error: {e}</div></div>', unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="rapiq-card" style="height:100%;display:flex;align-items:center;justify-content:center;min-height:180px">
-                <div style="text-align:center;color:#4A6080">
-                    <div style="font-size:2.5rem;margin-bottom:10px">📂</div>
-                    <div style="font-size:13px">Upload a CSV to preview your dataset</div>
+                <div style="text-align:center;color:var(--t3)">
+                    <div style="font-size:2.2rem;margin-bottom:10px;opacity:0.4">📂</div>
+                    <div style="font-size:12.5px;font-family:var(--f-mono)">Upload a CSV to preview</div>
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
-    # Process if uploaded
     if uploaded_file:
         st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
 
@@ -1181,7 +1202,6 @@ elif selected == "Bulk Prediction":
                     "confidence_score (%)": [f"{x:.2f}%" for x in confidence_scores]
                 })
 
-                # Stats row
                 avg_conf = float(confidence_scores.mean())
                 cat_counts = pd.Series(predicted_labels).value_counts()
                 top_cat = cat_counts.index[0] if len(cat_counts) > 0 else "—"
@@ -1199,27 +1219,26 @@ elif selected == "Bulk Prediction":
                     st.markdown(f"""
                     <div class="metric-card">
                         <div class="metric-label">🎯 Avg Confidence</div>
-                        <div class="metric-value" style="color:#38BDF8">{avg_conf:.1f}%</div>
+                        <div class="metric-value" style="color:var(--teal)">{avg_conf:.1f}%</div>
                         <div class="metric-sub">Across all predictions</div>
                     </div>""", unsafe_allow_html=True)
                 with s3:
                     st.markdown(f"""
                     <div class="metric-card">
                         <div class="metric-label">🏷️ Top Category</div>
-                        <div class="metric-value" style="font-size:1.3rem">{top_cat}</div>
+                        <div class="metric-value" style="font-size:1.25rem">{top_cat}</div>
                         <div class="metric-sub">{cat_counts.iloc[0]} samples</div>
                     </div>""", unsafe_allow_html=True)
                 with s4:
                     st.markdown(f"""
                     <div class="metric-card">
                         <div class="metric-label">✅ Status</div>
-                        <div class="metric-value" style="color:#22C55E;font-size:1.3rem">Done</div>
+                        <div class="metric-value" style="color:var(--green);font-size:1.25rem">Done</div>
                         <div class="metric-sub">Processing complete</div>
                     </div>""", unsafe_allow_html=True)
 
                 st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
 
-                # Chart + Results
                 chart_col, res_col = st.columns([1, 1.2], gap="medium")
 
                 with chart_col:
@@ -1227,21 +1246,21 @@ elif selected == "Bulk Prediction":
                     <div class="rapiq-card">
                         <div class="section-header">
                             <div class="section-icon">📈</div>
-                            <div class="section-title">IQ Distribution Analysis</div>
+                            <div class="section-title">IQ Distribution</div>
                         </div>
                     """, unsafe_allow_html=True)
 
                     dist_counts = pd.Series(predicted_labels).value_counts().reindex(list(iq_labels.values()), fill_value=0)
-                    colors = [iq_colors.get(c, "#38BDF8") for c in dist_counts.index]
+                    colors = [iq_colors.get(c, "#00D4C8") for c in dist_counts.index]
 
                     fig2 = go.Figure()
                     fig2.add_trace(go.Bar(
                         x=dist_counts.index,
                         y=dist_counts.values,
-                        marker=dict(color=colors, opacity=0.85),
+                        marker=dict(color=colors, opacity=0.80),
                         text=dist_counts.values,
                         textposition="outside",
-                        textfont=dict(size=11, color="#7C9CBF"),
+                        textfont=dict(size=11, color="#5E7A96"),
                         hovertemplate="<b>%{x}</b><br>%{y} samples<extra></extra>",
                     ))
                     fig2.update_layout(
@@ -1251,17 +1270,14 @@ elif selected == "Bulk Prediction":
                         margin=PLOT_LAYOUT["margin"],
                         xaxis=PLOT_LAYOUT["xaxis"],
                         yaxis=dict(
-                            gridcolor="#1E2D4A",
-                            zerolinecolor="#1E2D4A",
-                            tickfont=dict(size=11, color="#4A6080"),
-                            title=dict(
-                                text="Samples",
-                                font=dict(size=11)
-                            )
+                            gridcolor="#1A2535",
+                            zerolinecolor="#1A2535",
+                            tickfont=dict(size=11, color="#2E4A62"),
+                            title=dict(text="Samples", font=dict(size=11))
                         ),
                         hoverlabel=PLOT_LAYOUT["hoverlabel"],
                         height=280,
-                        bargap=0.3,
+                        bargap=0.32,
                         showlegend=False,
                     )
                     st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
@@ -1277,14 +1293,13 @@ elif selected == "Bulk Prediction":
                     """, unsafe_allow_html=True)
                     st.dataframe(result_df[["age_years", "gender", "predicted_iq_category", "confidence_score (%)"]].head(8),
                                  use_container_width=True, hide_index=True)
-
                     csv_out = result_df.to_csv(index=False).encode("utf-8")
                     st.download_button("⬇ Download Full Results", data=csv_out,
                                        file_name="prediction_result.csv", mime="text/csv")
                     st.markdown("</div>", unsafe_allow_html=True)
 
             except Exception as e:
-                st.markdown(f'<div class="rapiq-card" style="border-color:#EF444430"><div style="color:#EF4444;font-size:13px">ERROR: {e}</div></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="rapiq-card" style="border-color:rgba(255,77,106,0.30)"><div style="color:var(--red);font-size:13px;font-family:var(--f-mono)">ERROR: {e}</div></div>', unsafe_allow_html=True)
 
 # =========================================
 # PAGE: ABOUT MODEL
@@ -1294,20 +1309,19 @@ elif selected == "About Model":
 
     st.markdown("""
     <div style="margin-bottom:1.8rem">
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;color:#F0F6FF;margin-bottom:4px">
+        <div style="font-family:var(--f-display);font-size:1.9rem;font-weight:900;color:var(--t1);margin-bottom:4px;letter-spacing:-0.03em">
             About Model
         </div>
-        <div style="font-size:13px;color:#4A6080">RapIQ Neural Research Platform — Model Documentation</div>
+        <div style="font-size:12px;color:var(--t3);font-family:var(--f-mono)">RapIQ Neural Research Platform — Model Documentation</div>
     </div>
     """, unsafe_allow_html=True)
 
-    # Metric cards
     m1, m2, m3, m4 = st.columns(4, gap="medium")
     metrics = [
-        ("📊", "Accuracy Score", "53.66%", "Weighted across all classes", "#38BDF8"),
-        ("🎯", "F1-Score (Weighted)", "46.40%", "Macro-averaged F1", "#8B5CF6"),
-        ("🗃️", "Samples Processed", "~80k", "Stanford-Binet Dataset", "#06B6D4"),
-        ("⚡", "Model Latency", "12ms", "Average response time", "#22C55E"),
+        ("📊", "Accuracy Score", "53.66%", "Weighted across all classes", "var(--teal)"),
+        ("🎯", "F1-Score (Weighted)", "46.40%", "Macro-averaged F1", "var(--purple)"),
+        ("🗃️", "Samples Processed", "~80k", "Stanford-Binet Dataset", "var(--amber)"),
+        ("⚡", "Model Latency", "12ms", "Average response time", "var(--green)"),
     ]
     for col, (icon, label, val, sub, color) in zip([m1, m2, m3, m4], metrics):
         with col:
@@ -1320,17 +1334,16 @@ elif selected == "About Model":
 
     st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
 
-    # About + Disclaimer
     info_col, disc_col = st.columns([1.5, 1], gap="medium")
 
     with info_col:
         st.markdown("""
-        <div class="rapiq-card" style="border-color:#38BDF830">
+        <div class="rapiq-card" style="border-color:var(--teal-border)">
             <div class="section-header">
                 <div class="section-icon">🧠</div>
                 <div class="section-title">About RapIQ</div>
             </div>
-            <div style="font-size:13.5px;color:#7C9CBF;line-height:1.8;margin-bottom:1.2rem">
+            <div style="font-size:13px;color:var(--t2);line-height:1.85;margin-bottom:1.2rem">
                 RapIQ is a state-of-the-art AI orchestration platform designed specifically for child
                 intelligence classification. Utilizing advanced Multi-Layer Perceptron (MLP) architectures,
                 the system analyzes complex psychometric patterns to provide objective data synthesis
@@ -1346,11 +1359,11 @@ elif selected == "About Model":
 
     with disc_col:
         st.markdown("""
-        <div class="rapiq-card" style="border-color:#F59E0B30;height:100%">
-            <div style="font-size:10px;font-weight:700;color:#F59E0B;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px">
-                ⚠️ Research Disclaimer
+        <div class="rapiq-card" style="border-color:var(--amber-border);border-left:3px solid var(--amber);height:100%">
+            <div style="font-size:9px;font-weight:700;color:var(--amber);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:12px;font-family:var(--f-mono)">
+                ⚠ Research Disclaimer
             </div>
-            <div style="font-size:12.5px;color:#7C9CBF;line-height:1.8;font-style:italic">
+            <div style="font-size:12px;color:var(--t2);line-height:1.85;font-style:italic">
                 "RapIQ is developed as a decision support system for research and preliminary screening purposes.
                 It is NOT intended to serve as a standalone diagnostic tool. All results should be reviewed
                 by licensed clinical neuropsychologists."
@@ -1360,7 +1373,6 @@ elif selected == "About Model":
 
     st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
 
-    # Model info + Dataset
     model_col, data_col = st.columns([1.5, 1], gap="medium")
 
     with model_col:
@@ -1372,28 +1384,28 @@ elif selected == "About Model":
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:4px">
                 <div>
-                    <div style="font-size:10px;color:#4A6080;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px">Algorithm</div>
-                    <div style="font-size:14px;color:#F0F6FF;font-weight:600">MLP Classifier</div>
+                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Algorithm</div>
+                    <div style="font-size:14px;color:var(--t1);font-weight:700">MLP Classifier</div>
                 </div>
                 <div>
-                    <div style="font-size:10px;color:#4A6080;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px">Hidden Layer</div>
-                    <div style="font-size:14px;color:#F0F6FF;font-weight:600">(10, 6)</div>
+                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Hidden Layer</div>
+                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">(10, 6)</div>
                 </div>
                 <div>
-                    <div style="font-size:10px;color:#4A6080;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px">Activation</div>
-                    <div style="font-size:14px;color:#F0F6FF;font-weight:600">ReLU</div>
+                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Activation</div>
+                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">ReLU</div>
                 </div>
                 <div>
-                    <div style="font-size:10px;color:#4A6080;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px">Optimizer</div>
-                    <div style="font-size:14px;color:#F0F6FF;font-weight:600">Adam</div>
+                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Optimizer</div>
+                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">Adam</div>
                 </div>
                 <div>
-                    <div style="font-size:10px;color:#4A6080;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px">Scaling</div>
-                    <div style="font-size:14px;color:#F0F6FF;font-weight:600">StandardScaler</div>
+                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Scaling</div>
+                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">StandardScaler</div>
                 </div>
                 <div>
-                    <div style="font-size:10px;color:#4A6080;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px">Oversampling</div>
-                    <div style="font-size:14px;color:#F0F6FF;font-weight:600">SMOTE</div>
+                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Oversampling</div>
+                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">SMOTE</div>
                 </div>
             </div>
         </div>
@@ -1406,52 +1418,50 @@ elif selected == "About Model":
                 <div class="section-icon">🗄️</div>
                 <div class="section-title">Dataset</div>
             </div>
-            <div style="font-size:13px;color:#7C9CBF;line-height:1.7;margin-bottom:1rem">
+            <div style="font-size:12.5px;color:var(--t2);line-height:1.75;margin-bottom:1rem">
                 Utilizing the comprehensive Stanford-Binet Intelligence Scales dataset compiled
                 from extensive longitudinal research.
             </div>
-            <div style="background:#070E1E;border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between">
+            <div style="background:var(--s3);border:1px solid var(--b1);border-radius:var(--r-md);padding:14px 18px;display:flex;align-items:center;justify-content:space-between">
                 <div>
-                    <div style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:#F0F6FF">80,000+</div>
-                    <div style="font-size:11px;color:#4A6080;margin-top:2px">Validated Research Samples</div>
+                    <div style="font-family:var(--f-display);font-size:1.6rem;font-weight:900;color:var(--t1);letter-spacing:-0.03em">80,000+</div>
+                    <div style="font-size:10px;color:var(--t3);margin-top:3px;font-family:var(--f-mono);letter-spacing:0.08em;text-transform:uppercase">Validated Samples</div>
                 </div>
-                <div style="font-size:2rem;opacity:0.3">🗃️</div>
+                <div style="font-size:2rem;opacity:0.2">🗃️</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
 
-    # Taxonomy
     st.markdown("""
     <div class="rapiq-card">
         <div style="text-align:center;margin-bottom:1.5rem">
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:#F0F6FF">
+            <div style="font-family:var(--f-display);font-size:1.15rem;font-weight:800;color:var(--t1);letter-spacing:-0.02em">
                 Intelligence Classification Taxonomy
             </div>
-            <div style="font-size:12px;color:#4A6080;margin-top:4px">MLP output class definitions</div>
+            <div style="font-size:10.5px;color:var(--t3);margin-top:4px;font-family:var(--f-mono);letter-spacing:0.08em;text-transform:uppercase">MLP Output Class Definitions</div>
         </div>
     """, unsafe_allow_html=True)
 
-    class_colors = ["#EF4444", "#F97316", "#F59E0B", "#38BDF8", "#8B5CF6"]
+    class_colors = ["#FF4D6A", "#FF8C42", "#F5A623", "#00D4C8", "#9B72F0"]
     class_cols = st.columns(5, gap="medium")
     for i, (key, label) in enumerate(iq_labels.items()):
         with class_cols[i]:
             color = class_colors[i]
             st.markdown(f"""
-            <div class="class-card" style="border-color:{color}25;border-top:2px solid {color}">
+            <div class="class-card" style="border-color:{color}22;border-left:2px solid {color}">
                 <div class="class-number">Class {key+1:02d}</div>
-                <div class="class-name">{label}</div>
+                <div class="class-name" style="color:{color}">{label}</div>
             </div>
             """, unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # Footer
     st.markdown("""
-    <div style="text-align:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border)">
-        <div style="font-size:11px;color:#4A6080;letter-spacing:0.1em;text-transform:uppercase">
-            © 2024 RapIQ Neural Research Group. All Rights Reserved.
+    <div style="text-align:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--b1)">
+        <div style="font-size:10px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;font-family:var(--f-mono)">
+            © 2024 RapIQ Neural Research Group · All Rights Reserved
         </div>
     </div>
     """, unsafe_allow_html=True)
