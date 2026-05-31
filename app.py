@@ -22,125 +22,91 @@ st.set_page_config(
 )
 
 # =========================================
-# CUSTOM CSS — Obsidian Noir Design System
-# Aesthetic: Dark luxury scientific instrument
-# Font: Outfit (display) + JetBrains Mono (data)
-# Palette: Near-black base, electric teal accent,
-#          warm amber highlight, slate borders
+# CUSTOM CSS
+# Light theme — clean, modern, professional
+# Font: Plus Jakarta Sans
+# Palette: White base, indigo accent, soft grays
 # =========================================
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
-/* ─── Reset ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ─── Design Tokens ─── */
 :root {
-    /* Base surfaces — near-black with cool undertone */
-    --s0:  #060A0F;   /* deepest bg */
-    --s1:  #090E15;   /* sidebar */
-    --s2:  #0C1219;   /* card */
-    --s3:  #101820;   /* card hover / input */
-    --s4:  #141F2A;   /* elevated surface */
+    --bg:           #F4F6FB;
+    --sidebar-bg:   #FFFFFF;
+    --card-bg:      #FFFFFF;
+    --input-bg:     #F7F8FC;
+    --border:       #E4E8F0;
+    --border-mid:   #D0D6E4;
 
-    /* Borders */
-    --b1:  #1A2535;   /* subtle */
-    --b2:  #243448;   /* mid */
-    --b3:  #2E4260;   /* strong */
+    --indigo:       #4F46E5;
+    --indigo-light: #EEF2FF;
+    --indigo-mid:   #C7D2FE;
+    --indigo-hover: #4338CA;
 
-    /* Accent — electric teal */
-    --teal:        #00D4C8;
-    --teal-dim:    rgba(0,212,200,0.12);
-    --teal-glow:   rgba(0,212,200,0.18);
-    --teal-border: rgba(0,212,200,0.28);
+    --text-primary:   #111827;
+    --text-secondary: #6B7280;
+    --text-muted:     #9CA3AF;
 
-    /* Secondary accent — amber / gold */
-    --amber:       #F5A623;
-    --amber-dim:   rgba(245,166,35,0.12);
-    --amber-border:rgba(245,166,35,0.28);
+    --green:  #10B981;
+    --red:    #EF4444;
+    --orange: #F97316;
+    --amber:  #F59E0B;
+    --purple: #8B5CF6;
 
-    /* Status */
-    --green:  #00C896;
-    --red:    #FF4D6A;
-    --orange: #FF8C42;
-    --purple: #9B72F0;
+    --radius-sm:  6px;
+    --radius-md:  10px;
+    --radius-lg:  14px;
+    --radius-xl:  18px;
+    --radius-pill:999px;
 
-    /* Text */
-    --t1: #E8F0F8;   /* primary */
-    --t2: #5E7A96;   /* secondary */
-    --t3: #2E4A62;   /* muted */
+    --shadow-sm:   0 1px 4px rgba(0,0,0,0.06);
+    --shadow-card: 0 2px 12px rgba(0,0,0,0.07);
+    --shadow-btn:  0 4px 14px rgba(79,70,229,0.30);
 
-    /* Typography */
-    --f-display: 'Outfit', sans-serif;
-    --f-mono:    'JetBrains Mono', monospace;
-
-    /* Geometry */
-    --r-sm:   6px;
-    --r-md:   10px;
-    --r-lg:   14px;
-    --r-xl:   20px;
-    --r-pill: 999px;
-
-    /* Shadows */
-    --sh-card:  0 2px 16px rgba(0,0,0,0.5);
-    --sh-teal:  0 0 24px rgba(0,212,200,0.12);
-    --sh-btn:   0 4px 20px rgba(0,212,200,0.30);
+    --font: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* ─── App shell ─── */
+/* ── App Shell ── */
 .stApp {
-    background: var(--s0) !important;
-    font-family: var(--f-display) !important;
-    color: var(--t1) !important;
+    background: var(--bg) !important;
+    font-family: var(--font) !important;
+    color: var(--text-primary) !important;
 }
 
-/* Hide streamlit chrome */
 #MainMenu, footer, header         { visibility: hidden; }
 .stDeployButton                   { display: none !important; }
 [data-testid="stToolbar"]         { display: none !important; }
 
-/* Content area */
 .main .block-container {
-    padding: 2rem 2.5rem 4rem !important;
-    max-width: 1440px !important;
+    padding: 2.2rem 2.8rem 4rem !important;
+    max-width: 1400px !important;
 }
 
-/* Column gaps */
-[data-testid="column"]            { padding: 0 7px !important; }
+[data-testid="column"]            { padding: 0 8px !important; }
 [data-testid="stHorizontalBlock"] { gap: 0 !important; }
 
-/* Divider */
 hr {
     border: none !important;
-    border-top: 1px solid var(--b1) !important;
-    margin: 1.4rem 0 !important;
+    border-top: 1px solid var(--border) !important;
+    margin: 1.6rem 0 !important;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar               { width: 4px; height: 4px; }
-::-webkit-scrollbar-track         { background: var(--s0); }
-::-webkit-scrollbar-thumb         { background: var(--b2); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover   { background: var(--b3); }
+::-webkit-scrollbar               { width: 5px; height: 5px; }
+::-webkit-scrollbar-track         { background: #F1F3F7; }
+::-webkit-scrollbar-thumb         { background: #D1D5DB; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover   { background: #9CA3AF; }
 
-/* Code */
-code {
-    font-family: var(--f-mono) !important;
-    font-size: 11px !important;
-    color: var(--teal) !important;
-    background: var(--teal-dim) !important;
-    border-radius: 4px !important;
-    padding: 2px 6px !important;
-}
-
-/* ─── Sidebar ─── */
+/* ── Sidebar ── */
 [data-testid="stSidebar"],
 [data-testid="stSidebar"] > div:first-child,
 section[data-testid="stSidebar"] {
-    background: var(--s1) !important;
-    border-right: 1px solid var(--b1) !important;
-    width: 248px !important;
+    background: var(--sidebar-bg) !important;
+    border-right: 1px solid var(--border) !important;
+    width: 260px !important;
 }
 [data-testid="stSidebar"] ul,
 [data-testid="stSidebar"] nav,
@@ -151,517 +117,455 @@ section[data-testid="stSidebar"] {
 ul[data-testid="stSidebarNavItems"],
 nav { background: transparent !important; }
 
-/* ─── Sidebar logo ─── */
+/* Sidebar logo */
 .sidebar-logo {
-    padding: 24px 18px 18px;
-    border-bottom: 1px solid var(--b1);
-    margin-bottom: 4px;
+    padding: 28px 20px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
 }
 .logo-mark {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, var(--teal) 0%, #007A9E 100%);
-    border-radius: var(--r-md);
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 16px rgba(0,212,200,0.30);
-    position: relative;
-}
-.logo-mark::after {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: calc(var(--r-md) + 1px);
-    border: 1px solid rgba(0,212,200,0.40);
-    pointer-events: none;
+    font-size: 26px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.35);
 }
 .logo-name {
-    font-family: var(--f-display);
-    font-size: 1.2rem;
+    font-family: var(--font);
+    font-size: 1.3rem;
     font-weight: 800;
-    color: var(--t1);
-    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 .logo-sub {
-    font-size: 9px;
-    color: var(--t3);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-top: 3px;
-    font-family: var(--f-mono);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    font-weight: 400;
 }
 
-/* ─── Nav links ─── */
+/* Nav links */
 .nav-link {
-    font-family: var(--f-display) !important;
+    font-family: var(--font) !important;
     font-size: 13.5px !important;
     font-weight: 500 !important;
-    color: var(--t2) !important;
-    border-radius: var(--r-md) !important;
+    color: var(--text-secondary) !important;
+    border-radius: var(--radius-md) !important;
     margin: 2px 10px !important;
-    padding: 12px 14px !important;
-    transition: all 0.18s ease !important;
+    padding: 11px 14px !important;
+    transition: all 0.15s ease !important;
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    min-height: 48px !important;
+    min-height: 46px !important;
     border: 1px solid transparent !important;
 }
 .nav-link:hover {
-    background: var(--s3) !important;
-    color: var(--t1) !important;
-    border-color: var(--b1) !important;
+    background: var(--indigo-light) !important;
+    color: var(--indigo) !important;
 }
 .nav-link.active,
 .nav-link-selected {
-    background: var(--teal-dim) !important;
-    border: 1px solid var(--teal-border) !important;
-    color: var(--teal) !important;
+    background: var(--indigo-light) !important;
+    border: 1px solid var(--indigo-mid) !important;
+    color: var(--indigo) !important;
     font-weight: 700 !important;
-    box-shadow: 0 0 12px rgba(0,212,200,0.07) !important;
 }
 .nav-link span { overflow: hidden !important; text-overflow: ellipsis !important; }
 .nav-link i    { font-size: 14px !important; min-width: 16px !important; }
 
-/* sidebar footer */
-.sidebar-footer {
-    padding: 14px 18px 20px;
+/* Sidebar footer */
+.sidebar-status {
+    padding: 16px 20px 24px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
 }
-.sidebar-footer-label {
-    font-size: 9px;
-    color: var(--t3);
-    letter-spacing: 0.15em;
+.sidebar-status-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.10em;
     text-transform: uppercase;
     margin-bottom: 10px;
-    font-family: var(--f-mono);
 }
-.sidebar-footer-items {
-    font-size: 11.5px;
-    color: var(--t2);
+.sidebar-status-item {
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
     line-height: 2;
-    font-family: var(--f-mono);
 }
-
-/* ──────────────────────────────────────────
-   HERO BANNER
-────────────────────────────────────────── */
-.hero-banner {
-    background: var(--s2);
-    border: 1px solid var(--b1);
-    border-top: 2px solid var(--teal);
-    border-radius: var(--r-xl);
-    padding: 2.4rem 3rem;
-    margin-bottom: 1.6rem;
-    position: relative;
-    overflow: hidden;
-}
-/* Grid texture overlay */
-.hero-banner::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-        linear-gradient(var(--b1) 1px, transparent 1px),
-        linear-gradient(90deg, var(--b1) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.25;
-    pointer-events: none;
-}
-/* Teal orb */
-.hero-banner::after {
-    content: '';
-    position: absolute;
-    top: -80px; right: -80px;
-    width: 320px; height: 320px;
-    background: radial-gradient(circle, rgba(0,212,200,0.07) 0%, transparent 65%);
+.status-dot {
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    pointer-events: none;
-}
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--teal-dim);
-    border: 1px solid var(--teal-border);
-    border-radius: var(--r-pill);
-    padding: 4px 12px;
-    font-size: 9.5px;
-    font-weight: 700;
-    color: var(--teal);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-family: var(--f-mono);
-    position: relative;
-}
-.hero-title {
-    font-family: var(--f-display);
-    font-size: 3.2rem;
-    font-weight: 900;
-    color: var(--t1);
-    line-height: 1.05;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.04em;
-    position: relative;
-}
-/* teal underline glow on title */
-.hero-title span {
-    color: var(--teal);
-}
-.hero-subtitle {
-    font-size: 13px;
-    color: var(--t2);
-    font-weight: 400;
-    margin-bottom: 1.3rem;
-    line-height: 1.7;
-    max-width: 640px;
-    position: relative;
-}
-
-/* ── Tags ── */
-.tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 3px 10px;
-    border-radius: var(--r-sm);
-    font-size: 9.5px;
-    font-weight: 700;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    font-family: var(--f-mono);
-}
-.tag-blue   { background: var(--teal-dim);   border: 1px solid var(--teal-border);   color: var(--teal); }
-.tag-purple { background: rgba(155,114,240,0.10); border: 1px solid rgba(155,114,240,0.25); color: var(--purple); }
-.tag-green  { background: rgba(0,200,150,0.10);   border: 1px solid rgba(0,200,150,0.25);   color: var(--green); }
-
-/* ──────────────────────────────────────────
-   CARDS
-────────────────────────────────────────── */
-.rapiq-card {
-    background: var(--s2);
-    border: 1px solid var(--b1);
-    border-radius: var(--r-lg);
-    padding: 1.4rem 1.5rem;
-    margin-bottom: 0.9rem;
-    box-shadow: var(--sh-card);
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-.rapiq-card:hover {
-    border-color: var(--b2);
-    box-shadow: var(--sh-teal);
-}
-
-/* ── Section header ── */
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 1.15rem;
-}
-.section-icon {
-    width: 30px;
-    height: 30px;
-    background: var(--teal-dim);
-    border: 1px solid var(--teal-border);
-    border-radius: var(--r-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
+    background: var(--green);
+    display: inline-block;
     flex-shrink: 0;
 }
-.section-title {
-    font-family: var(--f-display);
-    font-size: 0.9rem;
+
+/* ─────────────────────────────────────────
+   PAGE HEADER
+───────────────────────────────────────── */
+.page-header {
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid var(--border);
+}
+.page-header-icon {
+    font-size: 2.4rem;
+    margin-bottom: 4px;
+    line-height: 1;
+}
+.page-header-title {
+    font-family: var(--font);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+.page-header-sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 5px;
+    font-weight: 400;
+}
+
+/* ─────────────────────────────────────────
+   SECTION TITLE (inline, like screenshot)
+───────────────────────────────────────── */
+.section-heading {
+    font-family: var(--font);
+    font-size: 1.15rem;
     font-weight: 700;
-    color: var(--t1);
+    color: var(--text-primary);
+    margin-bottom: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 9px;
     letter-spacing: -0.01em;
 }
 
-/* ── Input label ── */
-.input-label {
-    font-size: 9.5px;
-    font-weight: 600;
-    color: var(--t3);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-    font-family: var(--f-mono);
+/* ─────────────────────────────────────────
+   FORM SECTION (white card)
+───────────────────────────────────────── */
+.form-section {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 1.6rem;
 }
 
-/* ──────────────────────────────────────────
+/* Divider line between sections */
+.section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.8rem 0;
+}
+
+/* ─────────────────────────────────────────
+   INPUT LABEL
+───────────────────────────────────────── */
+.input-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* ─────────────────────────────────────────
+   CARD (white surface)
+───────────────────────────────────────── */
+.rapiq-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.6rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-card);
+}
+
+/* ─────────────────────────────────────────
    METRIC CARDS
-────────────────────────────────────────── */
+───────────────────────────────────────── */
 .metric-card {
-    background: var(--s2);
-    border: 1px solid var(--b1);
-    border-radius: var(--r-lg);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     padding: 1.3rem 1.4rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-/* Left accent bar instead of top */
-.metric-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; bottom: 0;
-    width: 2px;
-    background: var(--teal);
-    border-radius: var(--r-lg) 0 0 var(--r-lg);
-}
-.metric-card:hover {
-    border-color: var(--teal-border);
-    box-shadow: var(--sh-teal);
+    box-shadow: var(--shadow-sm);
 }
 .metric-label {
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 600;
-    color: var(--t3);
-    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-family: var(--f-mono);
 }
 .metric-value {
-    font-family: var(--f-display);
+    font-family: var(--font);
     font-size: 2rem;
     font-weight: 800;
-    color: var(--t1);
+    color: var(--text-primary);
     line-height: 1;
-    margin-bottom: 4px;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.03em;
 }
 .metric-sub {
-    font-size: 10.5px;
-    color: var(--t3);
+    font-size: 11px;
+    color: var(--text-muted);
     margin-top: 5px;
-    font-family: var(--f-mono);
 }
 
-/* ──────────────────────────────────────────
+/* ─────────────────────────────────────────
    PREDICTION RESULT
-────────────────────────────────────────── */
+───────────────────────────────────────── */
 .prediction-result-card {
-    background: var(--s2);
-    border: 1px solid var(--teal-border);
-    border-left: 3px solid var(--teal);
-    border-radius: var(--r-xl);
-    padding: 2rem 2.4rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 1.8rem 2rem;
     margin: 1.2rem 0;
-    box-shadow: var(--sh-teal), var(--sh-card);
-    position: relative;
-    overflow: hidden;
-}
-/* Subtle teal orb */
-.prediction-result-card::after {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 180px; height: 180px;
-    background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-}
-/* Scanning line animation */
-.prediction-result-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        var(--teal) 40%,
-        var(--teal) 60%,
-        transparent 100%);
-    animation: scan-line 3.5s ease-in-out infinite;
-    opacity: 0.6;
-}
-@keyframes scan-line {
-    0%   { transform: translateY(0);    opacity: 0.6; }
-    50%  { transform: translateY(200px); opacity: 0.2; }
-    100% { transform: translateY(0);    opacity: 0.6; }
+    box-shadow: var(--shadow-card);
 }
 .prediction-tag {
-    font-size: 9px;
+    font-size: 10.5px;
     font-weight: 700;
-    color: var(--teal);
-    letter-spacing: 0.18em;
+    color: var(--indigo);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 8px;
-    font-family: var(--f-mono);
+    margin-bottom: 6px;
 }
 .prediction-category {
-    font-family: var(--f-display);
-    font-size: 2.6rem;
-    font-weight: 900;
-    color: var(--t1);
-    line-height: 1.05;
+    font-family: var(--font);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.1;
     margin-bottom: 6px;
     letter-spacing: -0.03em;
 }
 .prediction-desc {
-    font-size: 12.5px;
-    color: var(--t2);
-    margin-bottom: 1.4rem;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 1.3rem;
     line-height: 1.65;
 }
 
-/* ──────────────────────────────────────────
-   CLASS CARDS (taxonomy)
-────────────────────────────────────────── */
-.class-card {
-    background: var(--s2);
-    border: 1px solid var(--b1);
-    border-radius: var(--r-md);
-    padding: 1.1rem 1.3rem;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    cursor: default;
-}
-.class-card:hover {
-    border-color: var(--teal-border);
-    box-shadow: var(--sh-teal);
-    transform: translateY(-2px);
-}
-.class-number {
-    font-size: 9px;
-    font-weight: 600;
-    color: var(--t3);
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-    font-family: var(--f-mono);
-}
-.class-name {
-    font-family: var(--f-display);
-    font-size: 0.95rem;
+/* ─────────────────────────────────────────
+   TAGS
+───────────────────────────────────────── */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 10.5px;
     font-weight: 700;
-    color: var(--t1);
+    letter-spacing: 0.04em;
+}
+.tag-blue   { background: var(--indigo-light); color: var(--indigo); }
+.tag-purple { background: #F5F3FF; color: var(--purple); }
+.tag-green  { background: #ECFDF5; color: var(--green); }
+
+/* ─────────────────────────────────────────
+   ABOUT — INFO BLOCK ROW
+───────────────────────────────────────── */
+.info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row-label {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+.info-row-value {
+    color: var(--text-primary);
+    font-weight: 700;
+    text-align: right;
 }
 
-/* ──────────────────────────────────────────
+/* ─────────────────────────────────────────
+   OUTPUT CLASS ROWS
+───────────────────────────────────────── */
+.class-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    margin-bottom: 6px;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.class-row:hover {
+    border-color: var(--indigo-mid);
+    box-shadow: 0 2px 8px rgba(79,70,229,0.10);
+}
+.class-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.class-row-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+.class-row-num {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────────
+   DISCLAIMER BOX (yellow tint)
+───────────────────────────────────────── */
+.disclaimer-box {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 1.4rem;
+    font-size: 12.5px;
+    color: #92400E;
+    line-height: 1.75;
+}
+.disclaimer-box p { margin-bottom: 4px; }
+.disclaimer-box p:last-child { margin-bottom: 0; }
+
+/* ─────────────────────────────────────────
    FORM CONTROLS
-────────────────────────────────────────── */
+───────────────────────────────────────── */
 
 /* Selectbox */
 [data-baseweb="select"] > div {
-    background: var(--s3) !important;
-    border: 1px solid var(--b2) !important;
-    border-radius: var(--r-md) !important;
-    color: var(--t1) !important;
-    font-family: var(--f-display) !important;
-    font-size: 13.5px !important;
-    transition: border-color 0.18s, box-shadow 0.18s !important;
+    background: var(--input-bg) !important;
+    border: 1px solid var(--border-mid) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font) !important;
+    font-size: 14px !important;
+    transition: border-color 0.15s, box-shadow 0.15s !important;
 }
 [data-baseweb="select"] > div:hover,
 [data-baseweb="select"] > div:focus-within {
-    border-color: var(--teal-border) !important;
-    box-shadow: 0 0 0 3px rgba(0,212,200,0.07) !important;
+    border-color: var(--indigo) !important;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.10) !important;
 }
 [data-baseweb="popover"] {
-    background: var(--s3) !important;
-    border: 1px solid var(--b2) !important;
-    border-radius: var(--r-md) !important;
-    box-shadow: var(--sh-card) !important;
+    background: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
 }
 [role="option"] {
-    background: var(--s3) !important;
-    color: var(--t2) !important;
+    background: #FFFFFF !important;
+    color: var(--text-secondary) !important;
     font-size: 13.5px !important;
-    font-family: var(--f-display) !important;
+    font-family: var(--font) !important;
 }
 [role="option"]:hover {
-    background: var(--s4) !important;
-    color: var(--t1) !important;
+    background: var(--indigo-light) !important;
+    color: var(--indigo) !important;
 }
 
 /* Number input */
 [data-testid="stNumberInput"] input {
-    background: var(--s3) !important;
-    border: 1px solid var(--b2) !important;
-    border-radius: var(--r-md) !important;
-    color: var(--t1) !important;
-    font-family: var(--f-display) !important;
+    background: var(--input-bg) !important;
+    border: 1px solid var(--border-mid) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font) !important;
     font-size: 14px !important;
     padding: 10px 14px !important;
-    transition: border-color 0.18s, box-shadow 0.18s !important;
+    transition: border-color 0.15s, box-shadow 0.15s !important;
 }
 [data-testid="stNumberInput"] input:focus {
-    border-color: var(--teal-border) !important;
-    box-shadow: 0 0 0 3px rgba(0,212,200,0.07) !important;
+    border-color: var(--indigo) !important;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.10) !important;
     outline: none !important;
 }
 [data-testid="stNumberInput"] button {
-    background: var(--s4) !important;
-    border-color: var(--b2) !important;
-    color: var(--t2) !important;
-    transition: color 0.18s !important;
+    background: var(--input-bg) !important;
+    border-color: var(--border-mid) !important;
+    color: var(--text-secondary) !important;
+    transition: color 0.15s !important;
 }
 [data-testid="stNumberInput"] button:hover {
-    color: var(--teal) !important;
+    color: var(--indigo) !important;
 }
 
 /* Radio */
 [data-testid="stRadio"] > div {
     display: flex !important;
     flex-direction: row !important;
-    gap: 10px !important;
+    gap: 12px !important;
 }
 [data-testid="stRadio"] label {
-    background: var(--s3) !important;
-    border: 1px solid var(--b2) !important;
-    border-radius: var(--r-md) !important;
-    padding: 10px 20px !important;
-    color: var(--t2) !important;
-    font-size: 13.5px !important;
+    background: var(--input-bg) !important;
+    border: 1px solid var(--border-mid) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 10px 22px !important;
+    color: var(--text-secondary) !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
     cursor: pointer !important;
-    transition: all 0.18s ease !important;
-    min-width: 120px !important;
+    transition: all 0.15s ease !important;
+    min-width: 110px !important;
     white-space: nowrap !important;
-    font-family: var(--f-display) !important;
+    font-family: var(--font) !important;
 }
 [data-testid="stRadio"] label:hover {
-    border-color: var(--teal-border) !important;
-    color: var(--t1) !important;
-    background: var(--s4) !important;
+    border-color: var(--indigo) !important;
+    color: var(--indigo) !important;
+    background: var(--indigo-light) !important;
 }
 [data-testid="stRadio"] label[data-checked="true"] {
-    border-color: var(--teal-border) !important;
-    background: var(--teal-dim) !important;
-    color: var(--teal) !important;
+    border-color: var(--indigo) !important;
+    background: var(--indigo-light) !important;
+    color: var(--indigo) !important;
     font-weight: 700 !important;
-    box-shadow: 0 0 14px rgba(0,212,200,0.08) !important;
 }
 
-/* ── Primary Button ── */
+/* Primary Button */
 .stButton > button {
-    background: var(--teal) !important;
-    color: #060A0F !important;
-    font-family: var(--f-display) !important;
-    font-weight: 800 !important;
-    font-size: 14px !important;
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
+    color: #FFFFFF !important;
+    font-family: var(--font) !important;
+    font-weight: 700 !important;
+    font-size: 14.5px !important;
     letter-spacing: 0.01em !important;
     border: none !important;
-    border-radius: var(--r-pill) !important;
+    border-radius: var(--radius-pill) !important;
     padding: 0.75rem 2rem !important;
     width: 100% !important;
-    height: 52px !important;
+    height: 54px !important;
     cursor: pointer !important;
-    transition: opacity 0.2s, transform 0.18s, box-shadow 0.2s !important;
-    box-shadow: var(--sh-btn) !important;
+    transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s !important;
+    box-shadow: var(--shadow-btn) !important;
 }
 .stButton > button:hover {
-    opacity: 0.88 !important;
+    opacity: 0.90 !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 6px 26px rgba(0,212,200,0.38) !important;
+    box-shadow: 0 6px 20px rgba(79,70,229,0.38) !important;
 }
 .stButton > button:active {
     transform: translateY(0) !important;
@@ -670,37 +574,38 @@ nav { background: transparent !important; }
 
 /* Download button */
 [data-testid="stDownloadButton"] > button {
-    background: transparent !important;
-    border: 1px solid var(--b2) !important;
-    color: var(--t2) !important;
-    border-radius: var(--r-md) !important;
-    font-size: 12.5px !important;
-    font-family: var(--f-display) !important;
+    background: var(--input-bg) !important;
+    border: 1px solid var(--border-mid) !important;
+    color: var(--text-secondary) !important;
+    border-radius: var(--radius-md) !important;
+    font-size: 13px !important;
+    font-family: var(--font) !important;
     font-weight: 600 !important;
-    box-shadow: none !important;
+    box-shadow: var(--shadow-sm) !important;
     height: auto !important;
     padding: 8px 16px !important;
-    transition: all 0.18s !important;
+    transition: all 0.15s !important;
     width: auto !important;
 }
 [data-testid="stDownloadButton"] > button:hover {
-    border-color: var(--teal-border) !important;
-    color: var(--teal) !important;
-    background: var(--teal-dim) !important;
+    border-color: var(--indigo) !important;
+    color: var(--indigo) !important;
+    background: var(--indigo-light) !important;
     transform: none !important;
-    box-shadow: none !important;
+    box-shadow: var(--shadow-sm) !important;
 }
 
 /* File uploader */
 [data-testid="stFileUploader"] {
-    background: var(--s3) !important;
-    border: 1px dashed var(--b2) !important;
-    border-radius: var(--r-lg) !important;
+    background: var(--input-bg) !important;
+    border: 1.5px dashed var(--border-mid) !important;
+    border-radius: var(--radius-lg) !important;
     padding: 10px !important;
-    transition: all 0.18s !important;
+    transition: all 0.15s !important;
 }
 [data-testid="stFileUploader"]:hover {
-    border-color: var(--teal-border) !important;
+    border-color: var(--indigo) !important;
+    background: var(--indigo-light) !important;
 }
 section[data-testid="stFileUploaderDropzone"] {
     background: transparent !important;
@@ -709,73 +614,90 @@ section[data-testid="stFileUploaderDropzone"] {
 [data-testid="stFileUploader"] label,
 [data-testid="stFileUploader"] small,
 [data-testid="stFileUploader"] span {
-    color: var(--t2) !important;
+    color: var(--text-secondary) !important;
     font-size: 13px !important;
-    font-family: var(--f-display) !important;
+    font-family: var(--font) !important;
 }
 [data-testid="stFileUploader"] button {
-    background: var(--teal-dim) !important;
-    border: 1px solid var(--teal-border) !important;
-    color: var(--teal) !important;
-    border-radius: var(--r-md) !important;
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-mid) !important;
+    color: var(--text-secondary) !important;
+    border-radius: var(--radius-md) !important;
     font-size: 13px !important;
-    font-weight: 700 !important;
-    padding: 8px 18px !important;
-    font-family: var(--f-display) !important;
-    transition: all 0.18s !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    font-family: var(--font) !important;
+    transition: all 0.15s !important;
+    box-shadow: var(--shadow-sm) !important;
 }
 [data-testid="stFileUploader"] button:hover {
-    background: rgba(0,212,200,0.18) !important;
-    transform: translateY(-1px) !important;
+    border-color: var(--indigo) !important;
+    color: var(--indigo) !important;
+    background: var(--indigo-light) !important;
 }
-
-/* ──────────────────────────────────────────
-   DATA DISPLAY
-────────────────────────────────────────── */
 
 /* Progress */
 [data-testid="stProgress"] > div {
-    background: var(--b2) !important;
-    border-radius: var(--r-pill) !important;
-    height: 4px !important;
+    background: #E5E7EB !important;
+    border-radius: var(--radius-pill) !important;
+    height: 6px !important;
 }
 [data-testid="stProgress"] > div > div {
-    background: linear-gradient(90deg, var(--teal), var(--purple)) !important;
-    border-radius: var(--r-pill) !important;
+    background: linear-gradient(90deg, var(--indigo), var(--purple)) !important;
+    border-radius: var(--radius-pill) !important;
 }
 
 /* Dataframe */
 [data-testid="stDataFrame"] {
-    background: var(--s2) !important;
-    border: 1px solid var(--b1) !important;
-    border-radius: var(--r-md) !important;
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) !important;
     overflow: hidden !important;
+    box-shadow: var(--shadow-sm) !important;
 }
 .stDataFrame th {
-    background: var(--s1) !important;
-    color: var(--t3) !important;
-    font-size: 10px !important;
+    background: #F9FAFB !important;
+    color: var(--text-muted) !important;
+    font-size: 10.5px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.12em !important;
+    letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
     padding: 10px 14px !important;
-    border-bottom: 1px solid var(--b1) !important;
-    font-family: var(--f-mono) !important;
+    border-bottom: 1px solid var(--border) !important;
 }
 .stDataFrame td {
-    color: var(--t2) !important;
+    color: var(--text-secondary) !important;
     font-size: 13px !important;
     padding: 9px 14px !important;
-    border-bottom: 1px solid rgba(26,37,53,0.5) !important;
-    font-family: var(--f-mono) !important;
+    border-bottom: 1px solid rgba(228,232,240,0.5) !important;
+}
+
+/* Info box */
+.info-box {
+    background: #EFF6FF;
+    border-left: 3px solid var(--indigo);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #1E40AF;
+    font-weight: 500;
 }
 
 /* Spinner */
-[data-testid="stSpinner"] { color: var(--teal) !important; }
+[data-testid="stSpinner"] { color: var(--indigo) !important; }
 
-/* Hide alert */
+/* Hide default alert */
 .stAlert { display: none !important; }
 
+/* Footer */
+.page-footer {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2.5rem;
+    font-size: 12px;
+    color: var(--text-muted);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -826,11 +748,11 @@ iq_labels = {
 }
 
 iq_colors = {
-    "Moderate ID":   "#FF4D6A",
-    "Mild ID":       "#FF8C42",
-    "Below Average": "#F5A623",
-    "Average":       "#00D4C8",
-    "Above Average": "#9B72F0"
+    "Moderate ID":   "#EF4444",
+    "Mild ID":       "#F97316",
+    "Below Average": "#F59E0B",
+    "Average":       "#4F46E5",
+    "Above Average": "#8B5CF6"
 }
 
 iq_descriptions = {
@@ -852,7 +774,7 @@ with st.sidebar:
     <div class="sidebar-logo">
         <div class="logo-mark">🧠</div>
         <div class="logo-name">RapIQ</div>
-        <div class="logo-sub">MLP Architecture · (64,64)</div>
+        <div class="logo-sub">MLP Intelligence Classifier</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -867,36 +789,34 @@ with st.sidebar:
                 "background-color": "transparent",
             },
             "icon": {
-                "color": "#2E4A62",
+                "color": "#9CA3AF",
                 "font-size": "14px",
             },
             "nav-link": {
-                "font-family": "'Outfit', sans-serif",
+                "font-family": "'Plus Jakarta Sans', sans-serif",
                 "font-size": "13.5px",
-                "color": "#5E7A96",
+                "color": "#6B7280",
                 "border-radius": "10px",
                 "margin": "2px 10px",
                 "padding": "11px 14px",
-                "--hover-color": "#101820",
+                "--hover-color": "#EEF2FF",
             },
             "nav-link-selected": {
-                "background": "rgba(0,212,200,0.10)",
-                "color": "#00D4C8",
-                "border": "1px solid rgba(0,212,200,0.25)",
+                "background": "#EEF2FF",
+                "color": "#4F46E5",
+                "border": "1px solid #C7D2FE",
                 "font-weight": "700",
             },
         }
     )
 
-    st.markdown("<div style='height:1px; background:var(--b1); margin:14px 18px'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:1px; background:var(--border); margin:12px 0'></div>", unsafe_allow_html=True)
     st.markdown("""
-    <div class="sidebar-footer">
-        <div class="sidebar-footer-label">System Status</div>
-        <div class="sidebar-footer-items">
-            <div>● &nbsp;Model Active</div>
-            <div>● &nbsp;MLP Classifier</div>
-            <div>● &nbsp;StandardScaler</div>
-        </div>
+    <div class="sidebar-status">
+        <div class="sidebar-status-label">System</div>
+        <div class="sidebar-status-item"><span class="status-dot"></span> Model Loaded</div>
+        <div class="sidebar-status-item"><span class="status-dot"></span> MLP Classifier</div>
+        <div class="sidebar-status-item"><span class="status-dot"></span> StandardScaler</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -907,22 +827,22 @@ with st.sidebar:
 PLOT_LAYOUT = dict(
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
-    font=dict(family="Outfit", color="#5E7A96"),
+    font=dict(family="Plus Jakarta Sans", color="#6B7280"),
     margin=dict(l=20, r=20, t=36, b=20),
     xaxis=dict(
-        gridcolor="#1A2535",
-        zerolinecolor="#1A2535",
-        tickfont=dict(size=11, color="#2E4A62"),
+        gridcolor="#F3F4F6",
+        zerolinecolor="#E5E7EB",
+        tickfont=dict(size=11, color="#9CA3AF"),
     ),
     yaxis=dict(
-        gridcolor="#1A2535",
-        zerolinecolor="#1A2535",
-        tickfont=dict(size=11, color="#2E4A62"),
+        gridcolor="#F3F4F6",
+        zerolinecolor="#E5E7EB",
+        tickfont=dict(size=11, color="#9CA3AF"),
     ),
     hoverlabel=dict(
-        bgcolor="#0C1219",
-        bordercolor="#243448",
-        font=dict(family="Outfit", size=12, color="#E8F0F8"),
+        bgcolor="#FFFFFF",
+        bordercolor="#E5E7EB",
+        font=dict(family="Plus Jakarta Sans", size=12, color="#111827"),
     ),
 )
 
@@ -932,60 +852,45 @@ PLOT_LAYOUT = dict(
 
 if selected == "Dashboard":
 
+    # Page header — matches screenshot style
     st.markdown("""
-    <div class="hero-banner">
-        <div class="hero-badge">⬡ Intelligence Classification Platform</div>
-        <div class="hero-title" style="margin-top:14px">Rap<span>IQ</span></div>
-        <div class="hero-subtitle">AI-powered pediatric IQ category prediction using a Multilayer Perceptron (MLP) architecture trained on the Stanford-Binet Intelligence Scales dataset.</div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap; position:relative;">
-            <span class="tag tag-blue">MLP (64,64)</span>
-            <span class="tag tag-purple">5 Classes</span>
-            <span class="tag tag-green">53.66% Accuracy</span>
-        </div>
+    <div class="page-header">
+        <div class="page-header-icon">🧠</div>
+        <div class="page-header-title">RapIQ</div>
+        <div class="page-header-sub">AI-powered Intelligence Classification using Multilayer Perceptron (MLP)</div>
     </div>
     """, unsafe_allow_html=True)
 
-    col_left, col_right = st.columns(2, gap="medium")
+    # ── Family + Child in two columns (no card box, flat like screenshot) ──
+    col_left, col_right = st.columns(2, gap="large")
 
     with col_left:
-        st.markdown("""
-        <div class="rapiq-card">
-            <div class="section-header">
-                <div class="section-icon">👨‍👩‍👦</div>
-                <div class="section-title">Family Information</div>
-            </div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="section-heading">👨‍👩‍👦 Family Information</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="input-label">Mother Education Level</div>', unsafe_allow_html=True)
+        st.markdown('<span class="input-label">Mother Education Level</span>', unsafe_allow_html=True)
         education_mother = st.selectbox("_", list(edu_map.keys()), key="edu_mother", label_visibility="collapsed")
 
-        st.markdown('<div class="input-label" style="margin-top:14px">Father Education Level</div>', unsafe_allow_html=True)
+        st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+        st.markdown('<span class="input-label">Father Education Level</span>', unsafe_allow_html=True)
         education_father = st.selectbox("_", list(edu_map.keys()), key="edu_father", label_visibility="collapsed")
 
-        st.markdown("</div>", unsafe_allow_html=True)
-
     with col_right:
-        st.markdown("""
-        <div class="rapiq-card">
-            <div class="section-header">
-                <div class="section-icon">👶</div>
-                <div class="section-title">Child Information</div>
-            </div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="section-heading">👶 Child Information</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="input-label">Age (Years)</div>', unsafe_allow_html=True)
+        st.markdown('<span class="input-label">Age (Years)</span>', unsafe_allow_html=True)
         age = st.number_input("_", min_value=1, max_value=18, value=10, key="age_input", label_visibility="collapsed")
 
-        st.markdown('<div class="input-label" style="margin-top:14px">Gender</div>', unsafe_allow_html=True)
+        st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+        st.markdown('<span class="input-label">Gender</span>', unsafe_allow_html=True)
         gender = st.radio("_", list(gender_map.keys()), horizontal=True, key="gender_input", label_visibility="collapsed")
 
-        st.markdown("</div>", unsafe_allow_html=True)
+    # ── Predict button — full width, gradient, pill ──
+    st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
+    predict_btn = st.button("🚀  Predict IQ Category", key="predict_btn")
 
-    st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
-    col_btn = st.columns([1, 2, 1])[1]
-    with col_btn:
-        predict_btn = st.button("⬡  Run Classification", key="predict_btn")
+    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
+    # ── Prediction output ──
     if predict_btn:
         try:
             input_data = pd.DataFrame({
@@ -1000,7 +905,7 @@ if selected == "Dashboard":
             probabilities = model.predict_proba(scaled_data)[0]
             confidence = float(np.max(probabilities) * 100)
             predicted_label = iq_labels[prediction]
-            pred_color = iq_colors.get(predicted_label, "#00D4C8")
+            pred_color = iq_colors.get(predicted_label, "#4F46E5")
             pred_desc = iq_descriptions.get(predicted_label, "")
 
             r_col, c_col = st.columns([1.1, 1], gap="medium")
@@ -1008,14 +913,12 @@ if selected == "Dashboard":
             with r_col:
                 st.markdown(f"""
                 <div class="prediction-result-card">
-                    <div class="prediction-tag">▸ Classification Output</div>
+                    <div class="prediction-tag">Prediction Result</div>
                     <div class="prediction-category" style="color:{pred_color}">{predicted_label}</div>
                     <div class="prediction-desc">{pred_desc}</div>
-                    <div style="margin-bottom:8px">
-                        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-                            <span style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;font-family:var(--f-mono)">Confidence Score</span>
-                            <span style="font-size:13px;color:{pred_color};font-weight:800;font-family:var(--f-mono)">{confidence:.1f}%</span>
-                        </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                        <span style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.06em">Confidence Score</span>
+                        <span style="font-size:14px;color:{pred_color};font-weight:800">{confidence:.1f}%</span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1034,12 +937,12 @@ if selected == "Dashboard":
                     y=prob_df["Probability"],
                     marker=dict(
                         color=prob_df["Color"],
-                        opacity=0.80,
+                        opacity=0.85,
                         line=dict(color="rgba(0,0,0,0)", width=0)
                     ),
                     text=[f"{v:.1f}%" for v in prob_df["Probability"]],
                     textposition="outside",
-                    textfont=dict(size=10, color="#5E7A96"),
+                    textfont=dict(size=10, color="#9CA3AF"),
                     hovertemplate="<b>%{x}</b><br>%{y:.1f}%<extra></extra>",
                 ))
                 fig.update_layout(
@@ -1049,15 +952,15 @@ if selected == "Dashboard":
                     margin=PLOT_LAYOUT["margin"],
                     xaxis=PLOT_LAYOUT["xaxis"],
                     yaxis=dict(
-                        gridcolor="#1A2535",
-                        zerolinecolor="#1A2535",
-                        tickfont=dict(size=11, color="#2E4A62"),
+                        gridcolor="#F3F4F6",
+                        zerolinecolor="#E5E7EB",
+                        tickfont=dict(size=11, color="#9CA3AF"),
                         range=[0, 110]
                     ),
                     hoverlabel=PLOT_LAYOUT["hoverlabel"],
                     title=dict(
                         text="Confidence Distribution",
-                        font=dict(size=12, color="#5E7A96"),
+                        font=dict(size=12, color="#9CA3AF"),
                         x=0
                     ),
                     height=300,
@@ -1068,10 +971,15 @@ if selected == "Dashboard":
 
         except Exception as e:
             st.markdown(f"""
-            <div class="rapiq-card" style="border-color:rgba(255,77,106,0.30)">
-                <div style="color:var(--red);font-size:13px;font-family:var(--f-mono)">⚠ Error: {e}</div>
+            <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:12px 16px;color:#991B1B;font-size:13px">
+                ⚠️ Prediction Error: {e}
             </div>
             """, unsafe_allow_html=True)
+
+    # Footer
+    st.markdown("""
+    <div class="page-footer">© 2025 RapIQ — Intelligence Classification System</div>
+    """, unsafe_allow_html=True)
 
 # =========================================
 # PAGE: BULK PREDICTION
@@ -1079,80 +987,63 @@ if selected == "Dashboard":
 
 elif selected == "Bulk Prediction":
 
+    # Page header
     st.markdown("""
-    <div class="hero-banner">
-        <div class="hero-badge">⬡ Enterprise Processing</div>
-        <div class="hero-title" style="margin-top:14px;font-size:2.4rem">Bulk Analysis</div>
-        <div class="hero-subtitle">Upload your CSV file to run parallelized MLP inference across thousands of samples. Our engine automatically sanitizes features and produces confidence-weighted IQ categories.</div>
+    <div class="page-header">
+        <div class="page-header-icon">📁</div>
+        <div class="page-header-title">Bulk Prediction</div>
+        <div class="page-header-sub">Upload CSV dataset and predict multiple records at once.</div>
     </div>
     """, unsafe_allow_html=True)
 
-    up_col, prev_col = st.columns([1, 1.4], gap="medium")
+    # Download template section
+    st.markdown('<div class="section-heading">📥 Download Template</div>', unsafe_allow_html=True)
 
-    with up_col:
+    template_df = pd.DataFrame({
+        "education_mother": ["secondary", "higher", "vocational"],
+        "education_father": ["vocational", "higher", "secondary"],
+        "age_years": [10, 15, 8],
+        "gender": ["male", "female", "male"]
+    })
+    template_csv = template_df.to_csv(index=False).encode("utf-8")
+    st.download_button("⬇ Download CSV Template", data=template_csv,
+                       file_name="template_input_iq.csv", mime="text/csv")
+
+    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+    # Upload section
+    st.markdown('<span class="input-label">Upload CSV File</span>', unsafe_allow_html=True)
+    uploaded_file = st.file_uploader("Upload CSV File", type=["csv"], label_visibility="collapsed")
+
+    # Upload hint / preview
+    if not uploaded_file:
         st.markdown("""
-        <div class="rapiq-card" style="height:100%">
-            <div class="section-header">
-                <div class="section-icon">📤</div>
-                <div class="section-title">Upload Dataset</div>
-            </div>
-            <div style="font-size:11.5px;color:var(--t3);margin-bottom:14px;line-height:1.8;font-family:var(--f-mono)">
-                Required columns:<br>
-                <code>education_mother</code> &nbsp;
-                <code>education_father</code><br>
-                <code>age_years</code> &nbsp;
-                <code>gender</code>
-            </div>
+        <div class="info-box" style="margin-top:12px">
+            Upload a CSV file to begin bulk prediction.
+        </div>
         """, unsafe_allow_html=True)
-
-        template_df = pd.DataFrame({
-            "education_mother": ["secondary", "higher", "vocational"],
-            "education_father": ["vocational", "higher", "secondary"],
-            "age_years": [10, 15, 8],
-            "gender": ["male", "female", "male"]
-        })
-        template_csv = template_df.to_csv(index=False).encode("utf-8")
-        st.download_button("⬇ Download CSV Template", data=template_csv,
-                           file_name="template_input_iq.csv", mime="text/csv")
-
-        st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
-        uploaded_file = st.file_uploader("Upload CSV File", type=["csv"], label_visibility="collapsed")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    with prev_col:
-        if uploaded_file:
-            try:
-                df = pd.read_csv(uploaded_file, sep=None, engine="python", decimal=",")
-                st.markdown("""
-                <div class="rapiq-card">
-                    <div class="section-header">
-                        <div class="section-icon">👁️</div>
-                        <div class="section-title">Dataset Preview</div>
-                    </div>
-                """, unsafe_allow_html=True)
-                st.dataframe(df.head(5), use_container_width=True, hide_index=True)
-                st.markdown(f"""
-                    <div style="display:flex;gap:8px;margin-top:10px">
-                        <span class="tag tag-blue">{len(df)} Rows</span>
-                        <span class="tag tag-purple">{len(df.columns)} Columns</span>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            except Exception as e:
-                st.markdown(f'<div class="rapiq-card" style="border-color:rgba(255,77,106,0.30)"><div style="color:var(--red);font-size:13px;font-family:var(--f-mono)">Read Error: {e}</div></div>', unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div class="rapiq-card" style="height:100%;display:flex;align-items:center;justify-content:center;min-height:180px">
-                <div style="text-align:center;color:var(--t3)">
-                    <div style="font-size:2.2rem;margin-bottom:10px;opacity:0.4">📂</div>
-                    <div style="font-size:12.5px;font-family:var(--f-mono)">Upload a CSV to preview</div>
-                </div>
+    else:
+        try:
+            df = pd.read_csv(uploaded_file, sep=None, engine="python", decimal=",")
+            st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-heading">👁️ Dataset Preview</div>', unsafe_allow_html=True)
+            st.dataframe(df.head(5), use_container_width=True, hide_index=True)
+            st.markdown(f"""
+            <div style="display:flex;gap:8px;margin-top:8px">
+                <span class="tag tag-blue">{len(df)} Rows</span>
+                <span class="tag tag-purple">{len(df.columns)} Columns</span>
+            </div>
+            """, unsafe_allow_html=True)
+        except Exception as e:
+            st.markdown(f"""
+            <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:12px 16px;color:#991B1B;font-size:13px;margin-top:10px">
+                Read Error: {e}
             </div>
             """, unsafe_allow_html=True)
 
+    # Run button + results
     if uploaded_file:
-        st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
-
+        st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
         run_col = st.columns([2, 1, 2])[1]
         with run_col:
             run_btn = st.button("▶  Run Bulk Analysis", key="run_bulk")
@@ -1206,7 +1097,8 @@ elif selected == "Bulk Prediction":
                 cat_counts = pd.Series(predicted_labels).value_counts()
                 top_cat = cat_counts.index[0] if len(cat_counts) > 0 else "—"
 
-                st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+                st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
                 s1, s2, s3, s4 = st.columns(4, gap="medium")
                 with s1:
                     st.markdown(f"""
@@ -1219,7 +1111,7 @@ elif selected == "Bulk Prediction":
                     st.markdown(f"""
                     <div class="metric-card">
                         <div class="metric-label">🎯 Avg Confidence</div>
-                        <div class="metric-value" style="color:var(--teal)">{avg_conf:.1f}%</div>
+                        <div class="metric-value" style="color:var(--indigo)">{avg_conf:.1f}%</div>
                         <div class="metric-sub">Across all predictions</div>
                     </div>""", unsafe_allow_html=True)
                 with s3:
@@ -1242,25 +1134,18 @@ elif selected == "Bulk Prediction":
                 chart_col, res_col = st.columns([1, 1.2], gap="medium")
 
                 with chart_col:
-                    st.markdown("""
-                    <div class="rapiq-card">
-                        <div class="section-header">
-                            <div class="section-icon">📈</div>
-                            <div class="section-title">IQ Distribution</div>
-                        </div>
-                    """, unsafe_allow_html=True)
-
+                    st.markdown('<div class="section-heading">📈 IQ Distribution</div>', unsafe_allow_html=True)
                     dist_counts = pd.Series(predicted_labels).value_counts().reindex(list(iq_labels.values()), fill_value=0)
-                    colors = [iq_colors.get(c, "#00D4C8") for c in dist_counts.index]
+                    colors = [iq_colors.get(c, "#4F46E5") for c in dist_counts.index]
 
                     fig2 = go.Figure()
                     fig2.add_trace(go.Bar(
                         x=dist_counts.index,
                         y=dist_counts.values,
-                        marker=dict(color=colors, opacity=0.80),
+                        marker=dict(color=colors, opacity=0.85),
                         text=dist_counts.values,
                         textposition="outside",
-                        textfont=dict(size=11, color="#5E7A96"),
+                        textfont=dict(size=11, color="#9CA3AF"),
                         hovertemplate="<b>%{x}</b><br>%{y} samples<extra></extra>",
                     ))
                     fig2.update_layout(
@@ -1270,9 +1155,9 @@ elif selected == "Bulk Prediction":
                         margin=PLOT_LAYOUT["margin"],
                         xaxis=PLOT_LAYOUT["xaxis"],
                         yaxis=dict(
-                            gridcolor="#1A2535",
-                            zerolinecolor="#1A2535",
-                            tickfont=dict(size=11, color="#2E4A62"),
+                            gridcolor="#F3F4F6",
+                            zerolinecolor="#E5E7EB",
+                            tickfont=dict(size=11, color="#9CA3AF"),
                             title=dict(text="Samples", font=dict(size=11))
                         ),
                         hoverlabel=PLOT_LAYOUT["hoverlabel"],
@@ -1281,25 +1166,25 @@ elif selected == "Bulk Prediction":
                         showlegend=False,
                     )
                     st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
-                    st.markdown("</div>", unsafe_allow_html=True)
 
                 with res_col:
-                    st.markdown("""
-                    <div class="rapiq-card">
-                        <div class="section-header">
-                            <div class="section-icon">📋</div>
-                            <div class="section-title">Analysis Results</div>
-                        </div>
-                    """, unsafe_allow_html=True)
+                    st.markdown('<div class="section-heading">📋 Analysis Results</div>', unsafe_allow_html=True)
                     st.dataframe(result_df[["age_years", "gender", "predicted_iq_category", "confidence_score (%)"]].head(8),
                                  use_container_width=True, hide_index=True)
                     csv_out = result_df.to_csv(index=False).encode("utf-8")
                     st.download_button("⬇ Download Full Results", data=csv_out,
                                        file_name="prediction_result.csv", mime="text/csv")
-                    st.markdown("</div>", unsafe_allow_html=True)
 
             except Exception as e:
-                st.markdown(f'<div class="rapiq-card" style="border-color:rgba(255,77,106,0.30)"><div style="color:var(--red);font-size:13px;font-family:var(--f-mono)">ERROR: {e}</div></div>', unsafe_allow_html=True)
+                st.markdown(f"""
+                <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:12px 16px;color:#991B1B;font-size:13px">
+                    ERROR: {e}
+                </div>
+                """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="page-footer">© 2025 RapIQ — Intelligence Classification System</div>
+    """, unsafe_allow_html=True)
 
 # =========================================
 # PAGE: ABOUT MODEL
@@ -1308,160 +1193,170 @@ elif selected == "Bulk Prediction":
 elif selected == "About Model":
 
     st.markdown("""
-    <div style="margin-bottom:1.8rem">
-        <div style="font-family:var(--f-display);font-size:1.9rem;font-weight:900;color:var(--t1);margin-bottom:4px;letter-spacing:-0.03em">
-            About Model
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:1.1rem">ℹ️</span>
+        <span style="font-family:var(--font);font-size:1.5rem;font-weight:800;color:var(--text-primary);letter-spacing:-0.025em">About RapIQ</span>
+    </div>
+    <div style="font-size:12.5px;color:var(--text-secondary);margin-bottom:1.6rem">
+        Recommendation Intelligence Prediction System
+    </div>
+    <div class="section-divider"></div>
+    """, unsafe_allow_html=True)
+
+    # Overview
+    st.markdown("""
+    <div style="margin-bottom:1.6rem">
+        <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px">
+            🔍 Overview
         </div>
-        <div style="font-size:12px;color:var(--t3);font-family:var(--f-mono)">RapIQ Neural Research Platform — Model Documentation</div>
+        <div style="font-size:13.5px;color:var(--text-secondary);line-height:1.8">
+            RapIQ is an intelligence classification system developed using Machine Learning techniques to predict children's IQ categories based on demographic and family-related characteristics.<br><br>
+            The prediction model is based on a Multilayer Perceptron (MLP) neural network trained using educational and demographic variables.
+        </div>
+    </div>
+    <div class="section-divider"></div>
+    """, unsafe_allow_html=True)
+
+    # Model Summary
+    st.markdown("""
+    <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+        📊 Model Summary
     </div>
     """, unsafe_allow_html=True)
 
     m1, m2, m3, m4 = st.columns(4, gap="medium")
-    metrics = [
-        ("📊", "Accuracy Score", "53.66%", "Weighted across all classes", "var(--teal)"),
-        ("🎯", "F1-Score (Weighted)", "46.40%", "Macro-averaged F1", "var(--purple)"),
-        ("🗃️", "Samples Processed", "~80k", "Stanford-Binet Dataset", "var(--amber)"),
-        ("⚡", "Model Latency", "12ms", "Average response time", "var(--green)"),
-    ]
-    for col, (icon, label, val, sub, color) in zip([m1, m2, m3, m4], metrics):
-        with col:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-label">{icon} {label}</div>
-                <div class="metric-value" style="color:{color}">{val}</div>
-                <div class="metric-sub">{sub}</div>
-            </div>""", unsafe_allow_html=True)
-
-    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
-
-    info_col, disc_col = st.columns([1.5, 1], gap="medium")
-
-    with info_col:
+    with m1:
         st.markdown("""
-        <div class="rapiq-card" style="border-color:var(--teal-border)">
-            <div class="section-header">
-                <div class="section-icon">🧠</div>
-                <div class="section-title">About RapIQ</div>
-            </div>
-            <div style="font-size:13px;color:var(--t2);line-height:1.85;margin-bottom:1.2rem">
-                RapIQ is a state-of-the-art AI orchestration platform designed specifically for child
-                intelligence classification. Utilizing advanced Multi-Layer Perceptron (MLP) architectures,
-                the system analyzes complex psychometric patterns to provide objective data synthesis
-                for educational and research professionals.
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-                <span class="tag tag-blue">AI-Driven</span>
-                <span class="tag tag-purple">Classification</span>
-                <span class="tag tag-green">MLP Engine</span>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with disc_col:
+        <div class="metric-card">
+            <div class="metric-label">Accuracy</div>
+            <div class="metric-value">53.66%</div>
+        </div>""", unsafe_allow_html=True)
+    with m2:
         st.markdown("""
-        <div class="rapiq-card" style="border-color:var(--amber-border);border-left:3px solid var(--amber);height:100%">
-            <div style="font-size:9px;font-weight:700;color:var(--amber);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:12px;font-family:var(--f-mono)">
-                ⚠ Research Disclaimer
-            </div>
-            <div style="font-size:12px;color:var(--t2);line-height:1.85;font-style:italic">
-                "RapIQ is developed as a decision support system for research and preliminary screening purposes.
-                It is NOT intended to serve as a standalone diagnostic tool. All results should be reviewed
-                by licensed clinical neuropsychologists."
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
-
-    model_col, data_col = st.columns([1.5, 1], gap="medium")
-
-    with model_col:
+        <div class="metric-card">
+            <div class="metric-label">Weighted F1</div>
+            <div class="metric-value">46.40%</div>
+        </div>""", unsafe_allow_html=True)
+    with m3:
         st.markdown("""
-        <div class="rapiq-card">
-            <div class="section-header">
-                <div class="section-icon">⚙️</div>
-                <div class="section-title">Model Information</div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:4px">
-                <div>
-                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Algorithm</div>
-                    <div style="font-size:14px;color:var(--t1);font-weight:700">MLP Classifier</div>
-                </div>
-                <div>
-                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Hidden Layer</div>
-                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">(10, 6)</div>
-                </div>
-                <div>
-                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Activation</div>
-                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">ReLU</div>
-                </div>
-                <div>
-                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Optimizer</div>
-                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">Adam</div>
-                </div>
-                <div>
-                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Scaling</div>
-                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">StandardScaler</div>
-                </div>
-                <div>
-                    <div style="font-size:9px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;font-family:var(--f-mono)">Oversampling</div>
-                    <div style="font-size:14px;color:var(--t1);font-weight:700;font-family:var(--f-mono)">SMOTE</div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with data_col:
+        <div class="metric-card">
+            <div class="metric-label">Dataset Size</div>
+            <div class="metric-value">80K+</div>
+        </div>""", unsafe_allow_html=True)
+    with m4:
         st.markdown("""
-        <div class="rapiq-card" style="height:100%">
-            <div class="section-header">
-                <div class="section-icon">🗄️</div>
-                <div class="section-title">Dataset</div>
-            </div>
-            <div style="font-size:12.5px;color:var(--t2);line-height:1.75;margin-bottom:1rem">
-                Utilizing the comprehensive Stanford-Binet Intelligence Scales dataset compiled
-                from extensive longitudinal research.
-            </div>
-            <div style="background:var(--s3);border:1px solid var(--b1);border-radius:var(--r-md);padding:14px 18px;display:flex;align-items:center;justify-content:space-between">
-                <div>
-                    <div style="font-family:var(--f-display);font-size:1.6rem;font-weight:900;color:var(--t1);letter-spacing:-0.03em">80,000+</div>
-                    <div style="font-size:10px;color:var(--t3);margin-top:3px;font-family:var(--f-mono);letter-spacing:0.08em;text-transform:uppercase">Validated Samples</div>
-                </div>
-                <div style="font-size:2rem;opacity:0.2">🗃️</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        <div class="metric-card">
+            <div class="metric-label">Prediction Time</div>
+            <div class="metric-value">&lt;20 ms</div>
+        </div>""", unsafe_allow_html=True)
 
-    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
+    # Model Information — table style like screenshot
     st.markdown("""
-    <div class="rapiq-card">
-        <div style="text-align:center;margin-bottom:1.5rem">
-            <div style="font-family:var(--f-display);font-size:1.15rem;font-weight:800;color:var(--t1);letter-spacing:-0.02em">
-                Intelligence Classification Taxonomy
-            </div>
-            <div style="font-size:10.5px;color:var(--t3);margin-top:4px;font-family:var(--f-mono);letter-spacing:0.08em;text-transform:uppercase">MLP Output Class Definitions</div>
+    <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+        ⚙️ Model Information
+    </div>
+    <div class="rapiq-card" style="padding:0;overflow:hidden">
+        <div class="info-row" style="padding:11px 16px">
+            <span class="info-row-label">Algorithm</span>
+            <span class="info-row-value">MLP Classifier</span>
         </div>
-    """, unsafe_allow_html=True)
-
-    class_colors = ["#FF4D6A", "#FF8C42", "#F5A623", "#00D4C8", "#9B72F0"]
-    class_cols = st.columns(5, gap="medium")
-    for i, (key, label) in enumerate(iq_labels.items()):
-        with class_cols[i]:
-            color = class_colors[i]
-            st.markdown(f"""
-            <div class="class-card" style="border-color:{color}22;border-left:2px solid {color}">
-                <div class="class-number">Class {key+1:02d}</div>
-                <div class="class-name" style="color:{color}">{label}</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="text-align:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--b1)">
-        <div style="font-size:10px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;font-family:var(--f-mono)">
-            © 2024 RapIQ Neural Research Group · All Rights Reserved
+        <div class="info-row" style="padding:11px 16px">
+            <span class="info-row-label">Hidden Layers</span>
+            <span class="info-row-value">(10, 6)</span>
+        </div>
+        <div class="info-row" style="padding:11px 16px">
+            <span class="info-row-label">Activation Function</span>
+            <span class="info-row-value">ReLU</span>
+        </div>
+        <div class="info-row" style="padding:11px 16px">
+            <span class="info-row-label">Optimizer</span>
+            <span class="info-row-value">Adam</span>
+        </div>
+        <div class="info-row" style="padding:11px 16px">
+            <span class="info-row-label">Feature Scaling</span>
+            <span class="info-row-value">StandardScaler</span>
+        </div>
+        <div class="info-row" style="padding:11px 16px">
+            <span class="info-row-label">Data Imbalancing</span>
+            <span class="info-row-value">SMOTE</span>
         </div>
     </div>
+    <div class="section-divider"></div>
+    """, unsafe_allow_html=True)
+
+    # Input Features
+    st.markdown("""
+    <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+        🔢 Input Features
+    </div>
+    <ul style="font-size:13.5px;color:var(--text-secondary);line-height:2.1;padding-left:1.3rem;margin-bottom:0">
+        <li>Mother education level</li>
+        <li>Father education level</li>
+        <li>Age (Years)</li>
+        <li>Gender</li>
+    </ul>
+    <div class="section-divider"></div>
+    """, unsafe_allow_html=True)
+
+    # Output Classes
+    st.markdown("""
+    <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+        🏷️ Output Classes
+    </div>
+    """, unsafe_allow_html=True)
+
+    class_colors_list = ["#EF4444", "#F97316", "#F59E0B", "#4F46E5", "#8B5CF6"]
+    for i, (key, label) in enumerate(iq_labels.items()):
+        color = class_colors_list[i]
+        st.markdown(f"""
+        <div class="class-row">
+            <div class="class-dot" style="background:{color}"></div>
+            <div class="class-row-name">{label}</div>
+            <div class="class-row-num">Class {key+1:02d}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
+    # Dataset
+    st.markdown("""
+    <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px">
+        🗄️ Dataset
+    </div>
+    <div style="font-size:13.5px;color:var(--text-secondary);line-height:1.8;margin-bottom:4px">
+        The model was trained using a large-scale intelligence assessment dataset containing demographic and educational background data.
+    </div>
+    <div style="font-size:13.5px;color:var(--text-secondary);line-height:1.8">
+        The dataset is divided into three parts used for training, validation, and testing.
+    </div>
+    <div class="section-divider"></div>
+    """, unsafe_allow_html=True)
+
+    # Disclaimer
+    st.markdown("""
+    <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px">
+        ⚠️ Disclaimer
+    </div>
+    <div class="disclaimer-box">
+        <p>This application is intended for educational, academic, and research purposes only.</p>
+        <p>The prediction results generated by RapIQ should not be interpreted as a professional psychological assessment or clinical diagnosis.</p>
+        <p>Any important decisions should be reviewed by qualified experts or professionals.</p>
+    </div>
+    <div class="section-divider"></div>
+    """, unsafe_allow_html=True)
+
+    # Developer Information
+    st.markdown("""
+    <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px">
+        👨‍💻 Developer Information
+    </div>
+    <div style="font-size:13.5px;color:var(--text-secondary);line-height:1.8">
+        RapIQ was developed as a machine learning project for intelligence classification research using the Multilayer Perceptron (MLP) algorithm and the Streamlit deployment framework.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="page-footer">© 2025 RapIQ — Intelligence Classification System</div>
     """, unsafe_allow_html=True)
