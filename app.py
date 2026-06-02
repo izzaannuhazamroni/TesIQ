@@ -850,7 +850,7 @@ PLOT_LAYOUT = dict(
 # PAGE: DASHBOARD
 # =========================================
 
-if selected == "Dashboard":
+if selected == "Single Prediction":
 
     # Page header — matches screenshot style
     st.markdown("""
