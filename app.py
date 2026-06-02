@@ -345,12 +345,12 @@ nav { background: transparent !important; }
 }
 .prediction-category {
     font-family: var(--font);
-    font-size: 2.2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--text-primary);
-    line-height: 1.1;
-    margin-bottom: 6px;
-    letter-spacing: -0.03em;
+    line-height: 1.25;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
 }
 .prediction-desc {
     font-size: 13px;
@@ -917,7 +917,7 @@ if selected == "Prediksi Tunggal":
             pred_color = iq_colors.get(predicted_label, "#4F46E5")
             pred_desc = iq_descriptions.get(predicted_label, "")
 
-            r_col, c_col = st.columns([1.1, 1], gap="medium")
+            r_col, c_col = st.columns([1.1, 3], gap="medium")
 
             with r_col:
                 st.markdown(f"""
@@ -963,7 +963,12 @@ if selected == "Prediksi Tunggal":
                     plot_bgcolor=PLOT_LAYOUT["plot_bgcolor"],
                     font=PLOT_LAYOUT["font"],
                     margin=PLOT_LAYOUT["margin"],
-                    xaxis=PLOT_LAYOUT["xaxis"],
+                    xaxis=dict(
+                        gridcolor="#F3F4F6",
+                        zerolinecolor="#E5E7EB",
+                        tickfont=dict(size=10, color="#9CA3AF"),
+                        tickangle=-35
+                    ),
                     yaxis=dict(
                         gridcolor="#F3F4F6",
                         zerolinecolor="#E5E7EB",
@@ -976,7 +981,7 @@ if selected == "Prediksi Tunggal":
                         font=dict(size=12, color="#9CA3AF"),
                         x=0
                     ),
-                    height=300,
+                    height=500,
                     bargap=0.38,
                     showlegend=False,
                 )
@@ -1171,7 +1176,10 @@ elif selected == "Prediksi Massal":
                             gridcolor="#F3F4F6",
                             zerolinecolor="#E5E7EB",
                             tickfont=dict(size=11, color="#9CA3AF"),
-                            title=dict(text="Jumlah Data", font=dict(size=11))
+                            range=[0, 100],
+                            tickmode="linear",
+                            tick0=0,
+                            dtick=20
                         ),
                         hoverlabel=PLOT_LAYOUT["hoverlabel"],
                         height=280,
