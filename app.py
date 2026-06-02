@@ -780,7 +780,7 @@ with st.sidebar:
 
     selected = option_menu(
         menu_title=None,
-        options=["Dashboard", "Bulk Prediction", "About Model"],
+        options=["Single Prediction", "Bulk Prediction", "About Model"],
         icons=["grid-1x2-fill", "table", "info-circle-fill"],
         default_index=0,
         styles={
