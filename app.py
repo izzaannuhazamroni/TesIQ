@@ -1229,13 +1229,13 @@ elif selected == "About Model":
         st.markdown("""
         <div class="metric-card">
             <div class="metric-label">Accuracy</div>
-            <div class="metric-value">53.66%</div>
+            <div class="metric-value">28.12%</div>
         </div>""", unsafe_allow_html=True)
     with m2:
         st.markdown("""
         <div class="metric-card">
             <div class="metric-label">Weighted F1</div>
-            <div class="metric-value">46.40%</div>
+            <div class="metric-value">26.01%</div>
         </div>""", unsafe_allow_html=True)
     with m3:
         st.markdown("""
