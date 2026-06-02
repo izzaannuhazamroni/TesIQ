@@ -722,13 +722,13 @@ model, scaler = load_model()
 # =========================================
 
 edu_map = {
-    "Primary or Lower Secondary": 0,
-    "Vocational": 1,
-    "Secondary": 2,
-    "Higher": 3
+    "SD / SMP": 0,
+    "Kejuruan": 1,
+    "SMA": 2,
+    "Perguruan Tinggi": 3
 }
 
-gender_map = {"Male": 1, "Female": 0}
+gender_map = {"Laki-laki": 1, "Perempuan": 0}
 
 reverse_edu_map = {
     "primary or lower secondary": 0,
@@ -740,27 +740,35 @@ reverse_edu_map = {
 reverse_gender_map = {"male": 1, "female": 0}
 
 iq_labels = {
-    0: "Moderate ID",
-    1: "Mild ID",
-    2: "Below Average",
-    3: "Average",
-    4: "Above Average"
+    0: "Moderate intellectual disability (35-54)",
+    1: "Mild intellectual disability (55-69)",
+    2: "Below average intelligence (70-84)",
+    3: "Average intelligence (85-114)",
+    4: "Above-average intelligence (>114)"
+}
+
+iq_ranges = {
+    0: "35–54",
+    1: "55–69",
+    2: "70–84",
+    3: "85–114",
+    4: ">114"
 }
 
 iq_colors = {
-    "Moderate ID":   "#EF4444",
-    "Mild ID":       "#F97316",
-    "Below Average": "#F59E0B",
-    "Average":       "#4F46E5",
-    "Above Average": "#8B5CF6"
+    "Moderate intellectual disability (35-54)":   "#EF4444",
+    "Mild intellectual disability (55-69)":       "#F97316",
+    "Below average intelligence (70-84)": "#F59E0B",
+    "Average intelligence (85-114)":       "#4F46E5",
+    "Above-average intelligence (>114)": "#8B5CF6"
 }
 
 iq_descriptions = {
-    "Moderate ID":   "The model indicates significant developmental support may be needed.",
-    "Mild ID":       "The model suggests mild intellectual developmental patterns.",
-    "Below Average": "The model indicates cognitive performance slightly below peer average.",
-    "Average":       "The model predicts typical cognitive development for the age group.",
-    "Above Average": "The model predicts high cognitive adaptability based on socio-demographic profile."
+    "Moderate intellectual disability (35-54)":   "Model mengindikasikan kemungkinan adanya kebutuhan dukungan perkembangan yang signifikan.",
+    "Mild intellectual disability (55-69)":       "Model mengindikasikan pola perkembangan kecerdasan ringan.",
+    "Below average intelligence (70-84)": "Model mengindikasikan performa kognitif sedikit di bawah rata-rata sebaya.",
+    "Average intelligence (85-114)":       "Model memprediksi perkembangan kognitif yang tipikal untuk kelompok usia tersebut.",
+    "Above-average intelligence (>114)": "Model memprediksi kemampuan adaptasi kognitif tinggi berdasarkan profil sosiodemografi."
 }
 
 required_columns = ["education_mother", "education_father", "age_years", "gender"]
@@ -774,13 +782,13 @@ with st.sidebar:
     <div class="sidebar-logo">
         <div class="logo-mark">🧠</div>
         <div class="logo-name">RapIQ</div>
-        <div class="logo-sub">MLP Intelligence Classifier</div>
+        <div class="logo-sub">Klasifikasi Kecerdasan Berbasis MLP</div>
     </div>
     """, unsafe_allow_html=True)
 
     selected = option_menu(
         menu_title=None,
-        options=["Single Prediction", "Bulk Prediction", "About Model"],
+        options=["Prediksi Tunggal", "Prediksi Massal", "Tentang Model"],
         icons=["grid-1x2-fill", "table", "info-circle-fill"],
         default_index=0,
         styles={
@@ -813,8 +821,8 @@ with st.sidebar:
     st.markdown("<div style='height:1px; background:var(--border); margin:12px 0'></div>", unsafe_allow_html=True)
     st.markdown("""
     <div class="sidebar-status">
-        <div class="sidebar-status-label">System</div>
-        <div class="sidebar-status-item"><span class="status-dot"></span> Model Loaded</div>
+        <div class="sidebar-status-label">Sistem</div>
+        <div class="sidebar-status-item"><span class="status-dot"></span> Model Siap Digunakan</div>
         <div class="sidebar-status-item"><span class="status-dot"></span> MLP Classifier</div>
         <div class="sidebar-status-item"><span class="status-dot"></span> StandardScaler</div>
     </div>
@@ -850,14 +858,14 @@ PLOT_LAYOUT = dict(
 # PAGE: DASHBOARD
 # =========================================
 
-if selected == "Single Prediction":
+if selected == "Prediksi Tunggal":
 
     # Page header — matches screenshot style
     st.markdown("""
     <div class="page-header">
         <div class="page-header-icon">🧠</div>
         <div class="page-header-title">RapIQ</div>
-        <div class="page-header-sub">AI-powered Intelligence Classification using Multilayer Perceptron (MLP)</div>
+        <div class="page-header-sub">Klasifikasi Kecerdasan Berbasis Artificial Intelligence menggunakan Multilayer Perceptron (MLP)</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -865,28 +873,28 @@ if selected == "Single Prediction":
     col_left, col_right = st.columns(2, gap="large")
 
     with col_left:
-        st.markdown('<div class="section-heading">👨‍👩‍👦 Family Information</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-heading">👨‍👩‍👦 Informasi Keluarga</div>', unsafe_allow_html=True)
 
-        st.markdown('<span class="input-label">Mother Education Level</span>', unsafe_allow_html=True)
+        st.markdown('<span class="input-label">Pendidikan Ibu</span>', unsafe_allow_html=True)
         education_mother = st.selectbox("_", list(edu_map.keys()), key="edu_mother", label_visibility="collapsed")
 
         st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
-        st.markdown('<span class="input-label">Father Education Level</span>', unsafe_allow_html=True)
+        st.markdown('<span class="input-label">Pendidikan Ayah</span>', unsafe_allow_html=True)
         education_father = st.selectbox("_", list(edu_map.keys()), key="edu_father", label_visibility="collapsed")
 
     with col_right:
-        st.markdown('<div class="section-heading">👶 Child Information</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-heading">👶 Informasi Anak</div>', unsafe_allow_html=True)
 
-        st.markdown('<span class="input-label">Age (Years)</span>', unsafe_allow_html=True)
+        st.markdown('<span class="input-label">Usia (Tahun)</span>', unsafe_allow_html=True)
         age = st.number_input("_", min_value=1, max_value=18, value=10, key="age_input", label_visibility="collapsed")
 
         st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
-        st.markdown('<span class="input-label">Gender</span>', unsafe_allow_html=True)
+        st.markdown('<span class="input-label">Jenis Kelamin</span>', unsafe_allow_html=True)
         gender = st.radio("_", list(gender_map.keys()), horizontal=True, key="gender_input", label_visibility="collapsed")
 
     # ── Predict button — full width, gradient, pill ──
     st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
-    predict_btn = st.button("🚀  Predict IQ Category", key="predict_btn")
+    predict_btn = st.button("🚀  Prediksi Kategori IQ", key="predict_btn")
 
     st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
@@ -905,6 +913,7 @@ if selected == "Single Prediction":
             probabilities = model.predict_proba(scaled_data)[0]
             confidence = float(np.max(probabilities) * 100)
             predicted_label = iq_labels[prediction]
+            predicted_iq_range = iq_ranges[prediction]
             pred_color = iq_colors.get(predicted_label, "#4F46E5")
             pred_desc = iq_descriptions.get(predicted_label, "")
 
@@ -913,11 +922,15 @@ if selected == "Single Prediction":
             with r_col:
                 st.markdown(f"""
                 <div class="prediction-result-card">
-                    <div class="prediction-tag">Prediction Result</div>
+                    <div class="prediction-tag">Hasil Prediksi</div>
                     <div class="prediction-category" style="color:{pred_color}">{predicted_label}</div>
                     <div class="prediction-desc">{pred_desc}</div>
+                    <div style="margin-bottom:1rem">
+                        <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Perkiraan Rentang IQ</div>
+                        <div style="font-size:1.6rem;font-weight:800;color:{pred_color};letter-spacing:-0.02em">{predicted_iq_range}</div>
+                    </div>
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-                        <span style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.06em">Confidence Score</span>
+                        <span style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.06em">Tingkat Keyakinan Model</span>
                         <span style="font-size:14px;color:{pred_color};font-weight:800">{confidence:.1f}%</span>
                     </div>
                 </div>
@@ -959,7 +972,7 @@ if selected == "Single Prediction":
                     ),
                     hoverlabel=PLOT_LAYOUT["hoverlabel"],
                     title=dict(
-                        text="Confidence Distribution",
+                        text="Distribusi Probabilitas Prediksi",
                         font=dict(size=12, color="#9CA3AF"),
                         x=0
                     ),
@@ -972,32 +985,32 @@ if selected == "Single Prediction":
         except Exception as e:
             st.markdown(f"""
             <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:12px 16px;color:#991B1B;font-size:13px">
-                ⚠️ Prediction Error: {e}
+                ⚠️ Kesalahan Prediksi: {e}
             </div>
             """, unsafe_allow_html=True)
 
     # Footer
     st.markdown("""
-    <div class="page-footer">© 2025 RapIQ — Intelligence Classification System</div>
+    <div class="page-footer">© 2025 RapIQ — Sistem Klasifikasi Kecerdasan</div>
     """, unsafe_allow_html=True)
 
 # =========================================
 # PAGE: BULK PREDICTION
 # =========================================
 
-elif selected == "Bulk Prediction":
+elif selected == "Prediksi Massal":
 
     # Page header
     st.markdown("""
     <div class="page-header">
         <div class="page-header-icon">📁</div>
-        <div class="page-header-title">Bulk Prediction</div>
-        <div class="page-header-sub">Upload CSV dataset and predict multiple records at once.</div>
+        <div class="page-header-title">Prediksi Massal</div>
+        <div class="page-header-sub">Unggah dataset CSV dan lakukan prediksi untuk banyak data sekaligus.</div>
     </div>
     """, unsafe_allow_html=True)
 
     # Download template section
-    st.markdown('<div class="section-heading">📥 Download Template</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-heading">📥 Unduh Template</div>', unsafe_allow_html=True)
 
     template_df = pd.DataFrame({
         "education_mother": ["secondary", "higher", "vocational"],
@@ -1006,38 +1019,38 @@ elif selected == "Bulk Prediction":
         "gender": ["male", "female", "male"]
     })
     template_csv = template_df.to_csv(index=False).encode("utf-8")
-    st.download_button("⬇ Download CSV Template", data=template_csv,
+    st.download_button("⬇ Unduh Template CSV", data=template_csv,
                        file_name="template_input_iq.csv", mime="text/csv")
 
     st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
     # Upload section
-    st.markdown('<span class="input-label">Upload CSV File</span>', unsafe_allow_html=True)
-    uploaded_file = st.file_uploader("Upload CSV File", type=["csv"], label_visibility="collapsed")
+    st.markdown('<span class="input-label">Unggah File CSV</span>', unsafe_allow_html=True)
+    uploaded_file = st.file_uploader("Unggah File CSV", type=["csv"], label_visibility="collapsed")
 
     # Upload hint / preview
     if not uploaded_file:
         st.markdown("""
         <div class="info-box" style="margin-top:12px">
-            Upload a CSV file to begin bulk prediction.
+            Unggah file CSV untuk memulai prediksi massal.
         </div>
         """, unsafe_allow_html=True)
     else:
         try:
             df = pd.read_csv(uploaded_file, sep=None, engine="python", decimal=",")
             st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
-            st.markdown('<div class="section-heading">👁️ Dataset Preview</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-heading">👁️ Pratinjau Dataset</div>', unsafe_allow_html=True)
             st.dataframe(df.head(5), use_container_width=True, hide_index=True)
             st.markdown(f"""
             <div style="display:flex;gap:8px;margin-top:8px">
-                <span class="tag tag-blue">{len(df)} Rows</span>
-                <span class="tag tag-purple">{len(df.columns)} Columns</span>
+                <span class="tag tag-blue">{len(df)} Baris</span>
+                <span class="tag tag-purple">{len(df.columns)} Kolom</span>
             </div>
             """, unsafe_allow_html=True)
         except Exception as e:
             st.markdown(f"""
             <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:12px 16px;color:#991B1B;font-size:13px;margin-top:10px">
-                Read Error: {e}
+                Kesalahan Membaca File: {e}
             </div>
             """, unsafe_allow_html=True)
 
@@ -1046,7 +1059,7 @@ elif selected == "Bulk Prediction":
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
         run_col = st.columns([2, 1, 2])[1]
         with run_col:
-            run_btn = st.button("▶  Run Bulk Analysis", key="run_bulk")
+            run_btn = st.button("▶  Jalankan Analisis", key="run_bulk")
 
         if run_btn:
             try:
@@ -1058,7 +1071,7 @@ elif selected == "Bulk Prediction":
                 jumlah_terhapus = jumlah_sebelum - jumlah_sesudah
 
                 if len(df_encoded) == 0:
-                    st.error("All data removed due to missing values.")
+                    st.error("Seluruh data dihapus karena terdapat nilai yang kosong.")
                     st.stop()
 
                 for col in ["education_mother", "education_father"]:
@@ -1074,7 +1087,7 @@ elif selected == "Bulk Prediction":
                 if df_encoded["education_father"].isnull().any(): errors.append("education_father")
                 if df_encoded["gender"].isnull().any(): errors.append("gender")
                 if errors:
-                    st.error(f"Invalid category values in: {', '.join(errors)}")
+                    st.error(f"Nilai kategori tidak valid pada: {', '.join(errors)}")
                     st.stop()
 
                 X = df_encoded[required_columns]
@@ -1103,30 +1116,30 @@ elif selected == "Bulk Prediction":
                 with s1:
                     st.markdown(f"""
                     <div class="metric-card">
-                        <div class="metric-label">📊 Total Samples</div>
+                        <div class="metric-label">📊 Total Data</div>
                         <div class="metric-value">{len(result_df):,}</div>
-                        <div class="metric-sub">{jumlah_terhapus} rows skipped</div>
+                        <div class="metric-sub">{jumlah_terhapus} baris diabaikan</div>
                     </div>""", unsafe_allow_html=True)
                 with s2:
                     st.markdown(f"""
                     <div class="metric-card">
-                        <div class="metric-label">🎯 Avg Confidence</div>
+                        <div class="metric-label">🎯 Rata-rata Keyakinan</div>
                         <div class="metric-value" style="color:var(--indigo)">{avg_conf:.1f}%</div>
-                        <div class="metric-sub">Across all predictions</div>
+                        <div class="metric-sub">Dari seluruh prediksi</div>
                     </div>""", unsafe_allow_html=True)
                 with s3:
                     st.markdown(f"""
                     <div class="metric-card">
-                        <div class="metric-label">🏷️ Top Category</div>
+                        <div class="metric-label">🏷️ Kategori Terbanyak</div>
                         <div class="metric-value" style="font-size:1.25rem">{top_cat}</div>
-                        <div class="metric-sub">{cat_counts.iloc[0]} samples</div>
+                        <div class="metric-sub">{cat_counts.iloc[0]} data</div>
                     </div>""", unsafe_allow_html=True)
                 with s4:
                     st.markdown(f"""
                     <div class="metric-card">
                         <div class="metric-label">✅ Status</div>
-                        <div class="metric-value" style="color:var(--green);font-size:1.25rem">Done</div>
-                        <div class="metric-sub">Processing complete</div>
+                        <div class="metric-value" style="color:var(--green);font-size:1.25rem">Selesai</div>
+                        <div class="metric-sub">Proses selesai</div>
                     </div>""", unsafe_allow_html=True)
 
                 st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
@@ -1134,7 +1147,7 @@ elif selected == "Bulk Prediction":
                 chart_col, res_col = st.columns([1, 1.2], gap="medium")
 
                 with chart_col:
-                    st.markdown('<div class="section-heading">📈 IQ Distribution</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="section-heading">📈 Distribusi Kategori IQ</div>', unsafe_allow_html=True)
                     dist_counts = pd.Series(predicted_labels).value_counts().reindex(list(iq_labels.values()), fill_value=0)
                     colors = [iq_colors.get(c, "#4F46E5") for c in dist_counts.index]
 
@@ -1146,7 +1159,7 @@ elif selected == "Bulk Prediction":
                         text=dist_counts.values,
                         textposition="outside",
                         textfont=dict(size=11, color="#9CA3AF"),
-                        hovertemplate="<b>%{x}</b><br>%{y} samples<extra></extra>",
+                        hovertemplate="<b>%{x}</b><br>%{y} data<extra></extra>",
                     ))
                     fig2.update_layout(
                         paper_bgcolor=PLOT_LAYOUT["paper_bgcolor"],
@@ -1158,7 +1171,7 @@ elif selected == "Bulk Prediction":
                             gridcolor="#F3F4F6",
                             zerolinecolor="#E5E7EB",
                             tickfont=dict(size=11, color="#9CA3AF"),
-                            title=dict(text="Samples", font=dict(size=11))
+                            title=dict(text="Jumlah Data", font=dict(size=11))
                         ),
                         hoverlabel=PLOT_LAYOUT["hoverlabel"],
                         height=280,
@@ -1168,11 +1181,11 @@ elif selected == "Bulk Prediction":
                     st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
 
                 with res_col:
-                    st.markdown('<div class="section-heading">📋 Analysis Results</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="section-heading">📋 Hasil Analisis</div>', unsafe_allow_html=True)
                     st.dataframe(result_df[["age_years", "gender", "predicted_iq_category", "confidence_score (%)"]].head(8),
                                  use_container_width=True, hide_index=True)
                     csv_out = result_df.to_csv(index=False).encode("utf-8")
-                    st.download_button("⬇ Download Full Results", data=csv_out,
+                    st.download_button("⬇ Unduh Hasil Lengkap", data=csv_out,
                                        file_name="prediction_result.csv", mime="text/csv")
 
             except Exception as e:
@@ -1183,22 +1196,22 @@ elif selected == "Bulk Prediction":
                 """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div class="page-footer">© 2025 RapIQ — Intelligence Classification System</div>
+    <div class="page-footer">© 2025 RapIQ — Sistem Klasifikasi Kecerdasan</div>
     """, unsafe_allow_html=True)
 
 # =========================================
 # PAGE: ABOUT MODEL
 # =========================================
 
-elif selected == "About Model":
+elif selected == "Tentang Model":
 
     st.markdown("""
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
         <span style="font-size:1.1rem">ℹ️</span>
-        <span style="font-family:var(--font);font-size:1.5rem;font-weight:800;color:var(--text-primary);letter-spacing:-0.025em">About RapIQ</span>
+        <span style="font-family:var(--font);font-size:1.5rem;font-weight:800;color:var(--text-primary);letter-spacing:-0.025em">Tentang RapIQ</span>
     </div>
     <div style="font-size:12.5px;color:var(--text-secondary);margin-bottom:1.6rem">
-        Recommendation Intelligence Prediction System
+        Sistem Prediksi Klasifikasi Kecerdasan
     </div>
     <div class="section-divider"></div>
     """, unsafe_allow_html=True)
@@ -1207,11 +1220,11 @@ elif selected == "About Model":
     st.markdown("""
     <div style="margin-bottom:1.6rem">
         <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px">
-            🔍 Overview
+            🔍 Ringkasan
         </div>
         <div style="font-size:13.5px;color:var(--text-secondary);line-height:1.8">
-            RapIQ is an intelligence classification system developed using Machine Learning techniques to predict children's IQ categories based on demographic and family-related characteristics.<br><br>
-            The prediction model is based on a Multilayer Perceptron (MLP) neural network trained using educational and demographic variables.
+            RapIQ adalah sistem klasifikasi kecerdasan yang dikembangkan menggunakan teknik Machine Learning untuk memprediksi kategori IQ anak berdasarkan karakteristik demografis dan keluarga.<br><br>
+            Model prediksi didasarkan pada jaringan saraf Multilayer Perceptron (MLP) yang dilatih menggunakan variabel pendidikan dan demografis.
         </div>
     </div>
     <div class="section-divider"></div>
@@ -1220,7 +1233,7 @@ elif selected == "About Model":
     # Model Summary
     st.markdown("""
     <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px">
-        📊 Model Summary
+        📊 Ringkasan Model
     </div>
     """, unsafe_allow_html=True)
 
@@ -1228,7 +1241,7 @@ elif selected == "About Model":
     with m1:
         st.markdown("""
         <div class="metric-card">
-            <div class="metric-label">Accuracy</div>
+            <div class="metric-label">Akurasi</div>
             <div class="metric-value">28.12%</div>
         </div>""", unsafe_allow_html=True)
     with m2:
@@ -1240,13 +1253,13 @@ elif selected == "About Model":
     with m3:
         st.markdown("""
         <div class="metric-card">
-            <div class="metric-label">Dataset Size</div>
+            <div class="metric-label">Ukuran Dataset</div>
             <div class="metric-value">80K+</div>
         </div>""", unsafe_allow_html=True)
     with m4:
         st.markdown("""
         <div class="metric-card">
-            <div class="metric-label">Prediction Time</div>
+            <div class="metric-label">Waktu Prediksi</div>
             <div class="metric-value">&lt;20 ms</div>
         </div>""", unsafe_allow_html=True)
 
@@ -1255,19 +1268,19 @@ elif selected == "About Model":
     # Model Information — table style like screenshot
     st.markdown("""
     <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px">
-        ⚙️ Model Information
+        ⚙️ Informasi Model
     </div>
     <div class="rapiq-card" style="padding:0;overflow:hidden">
         <div class="info-row" style="padding:11px 16px">
-            <span class="info-row-label">Algorithm</span>
+            <span class="info-row-label">Algoritma</span>
             <span class="info-row-value">MLP Classifier</span>
         </div>
         <div class="info-row" style="padding:11px 16px">
-            <span class="info-row-label">Hidden Layers</span>
+            <span class="info-row-label">Hidden Layer</span>
             <span class="info-row-value">(10, 6)</span>
         </div>
         <div class="info-row" style="padding:11px 16px">
-            <span class="info-row-label">Activation Function</span>
+            <span class="info-row-label">Fungsi Aktivasi</span>
             <span class="info-row-value">ReLU</span>
         </div>
         <div class="info-row" style="padding:11px 16px">
@@ -1275,11 +1288,11 @@ elif selected == "About Model":
             <span class="info-row-value">Adam</span>
         </div>
         <div class="info-row" style="padding:11px 16px">
-            <span class="info-row-label">Feature Scaling</span>
+            <span class="info-row-label">Normalisasi Fitur</span>
             <span class="info-row-value">StandardScaler</span>
         </div>
         <div class="info-row" style="padding:11px 16px">
-            <span class="info-row-label">Data Imbalancing</span>
+            <span class="info-row-label">Penyeimbangan Data</span>
             <span class="info-row-value">SMOTE</span>
         </div>
     </div>
@@ -1289,13 +1302,13 @@ elif selected == "About Model":
     # Input Features
     st.markdown("""
     <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:8px">
-        🔢 Input Features
+        🔢 Fitur Input
     </div>
     <ul style="font-size:13.5px;color:var(--text-secondary);line-height:2.1;padding-left:1.3rem;margin-bottom:0">
-        <li>Mother education level</li>
-        <li>Father education level</li>
-        <li>Age (Years)</li>
-        <li>Gender</li>
+        <li>Pendidikan ibu</li>
+        <li>Pendidikan ayah</li>
+        <li>Usia (tahun)</li>
+        <li>Jenis kelamin</li>
     </ul>
     <div class="section-divider"></div>
     """, unsafe_allow_html=True)
@@ -1303,7 +1316,7 @@ elif selected == "About Model":
     # Output Classes
     st.markdown("""
     <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:8px">
-        🏷️ Output Classes
+        🏷️ Kelas Output
     </div>
     """, unsafe_allow_html=True)
 
@@ -1326,10 +1339,10 @@ elif selected == "About Model":
         🗄️ Dataset
     </div>
     <div style="font-size:13.5px;color:var(--text-secondary);line-height:1.8;margin-bottom:4px">
-        The model was trained using a large-scale intelligence assessment dataset containing demographic and educational background data.
+        Model dilatih menggunakan dataset penilaian kecerdasan berskala besar yang berisi data latar belakang demografis dan pendidikan.
     </div>
     <div style="font-size:13.5px;color:var(--text-secondary);line-height:1.8">
-        The dataset is divided into three parts used for training, validation, and testing.
+        Dataset dibagi menjadi tiga bagian yang digunakan untuk pelatihan, validasi, dan pengujian.
     </div>
     <div class="section-divider"></div>
     """, unsafe_allow_html=True)
@@ -1340,9 +1353,9 @@ elif selected == "About Model":
         ⚠️ Disclaimer
     </div>
     <div class="disclaimer-box">
-        <p>This application is intended for educational, academic, and research purposes only.</p>
-        <p>The prediction results generated by RapIQ should not be interpreted as a professional psychological assessment or clinical diagnosis.</p>
-        <p>Any important decisions should be reviewed by qualified experts or professionals.</p>
+        <p>Aplikasi ini ditujukan hanya untuk keperluan edukasi, akademis, dan penelitian.</p>
+        <p>Hasil prediksi yang dihasilkan oleh RapIQ tidak boleh diartikan sebagai penilaian psikologis profesional atau diagnosis klinis.</p>
+        <p>Setiap keputusan penting harus ditinjau oleh para ahli atau profesional yang berkualifikasi.</p>
     </div>
     <div class="section-divider"></div>
     """, unsafe_allow_html=True)
@@ -1350,13 +1363,13 @@ elif selected == "About Model":
     # Developer Information
     st.markdown("""
     <div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px">
-        👨‍💻 Developer Information
+        👨‍💻 Informasi Pengembang
     </div>
     <div style="font-size:13.5px;color:var(--text-secondary);line-height:1.8">
-        RapIQ was developed as a machine learning project for intelligence classification research using the Multilayer Perceptron (MLP) algorithm and the Streamlit deployment framework.
+        RapIQ dikembangkan sebagai proyek machine learning untuk penelitian klasifikasi kecerdasan menggunakan algoritma Multilayer Perceptron (MLP) dan framework deployment Streamlit.
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div class="page-footer">© 2025 RapIQ — Intelligence Classification System</div>
+    <div class="page-footer">© 2025 RapIQ — Sistem Klasifikasi Kecerdasan</div>
     """, unsafe_allow_html=True)
